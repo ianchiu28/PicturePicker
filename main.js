@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, Menu } = require("electron");
 const path = require("node:path");
 
 const database = require("./database");
@@ -13,6 +13,8 @@ function createWindow () {
 		preload: path.join(__dirname, "preload.js")
 		}
 	});
+
+	Menu.setApplicationMenu(null);
 
 	// and load the index.html of the app.
 	mainWindow.loadFile("index.html");
