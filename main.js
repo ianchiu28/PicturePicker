@@ -15,6 +15,12 @@ function createWindow () {
 		}
 	});
 
+	ipcMain.handle("preload-pictures", async () => {
+		await loadPicturesFromDB();
+		const pictures = getPicturesByIndex();
+		return pictures;
+	});
+
 	ipcMain.handle("load-pictures", async () => {
 		const type = await savePicturesToDB(mainWindow);
 		await loadPicturesFromDB(type);
@@ -36,6 +42,7 @@ function createWindow () {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
 	await database.initDB();
+	await loadPicturesFromDB();
 
 	createWindow();
 
