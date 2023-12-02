@@ -8,10 +8,10 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
 window.addEventListener('DOMContentLoaded', async () => {
-    const pictures = await ipcRenderer.invoke("preload-pictures");
+    const { pictures } = await ipcRenderer.invoke("preload-pictures");
 
     const defaultPicture = "./empty.jpg";
-    
+
     const mainPicture = document.getElementById("main-picture");
     const previewPicture1 = document.getElementById("preview-picture-1");
     const previewPicture2 = document.getElementById("preview-picture-2");

@@ -10,6 +10,7 @@ const SCALE_MIN = 0.5;
 const defaultPicture = "./empty.jpg";
 let startScale = 1;
 let startCoords = { x: 0, y: 0 };
+let currentPictureIndex = 0;
 
 const mainPictureContainer = document.getElementById("main-picture-container");
 const mainPicture = document.getElementById("main-picture");
@@ -71,8 +72,8 @@ function changeRanking(event) {
 }
 
 async function loadPictures() {
-    const pictures = await window.electron.loadPictures();
-    reloadPictures(pictures);
+    const picturesInfo = await window.electron.loadPictures();
+    reloadPictures(picturesInfo);
 }
 
 function exportRankingsInTxt() {
@@ -98,7 +99,8 @@ function keyDown({ key }) {
     }
 }
 
-function reloadPictures(pictures) {
+function reloadPictures({ pictures, currentIndex }) {
+    currentPictureIndex = currentIndex;
     previewPicture1.setAttribute("src", pictures[0].path || defaultPicture);
     previewPicture2.setAttribute("src", pictures[1].path || defaultPicture);
     previewPicture3.setAttribute("src", pictures[2].path || defaultPicture);

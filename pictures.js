@@ -40,12 +40,13 @@ async function loadPicturesFromDB(type) {
 }
 
 function getPicturesByIndex(index = 0, rank = 0) {
-    const outputPictures = [];
+    const pictures = [];
     for (let i = index - 2; i < index + 3; i++) {
         const picture = picturesRankMap[rank][i] || {};
-        outputPictures.push(picture);
+        pictures.push(picture);
     }
-    return outputPictures;
+
+    return { pictures, currentIndex: index };
 }
 
 module.exports = {

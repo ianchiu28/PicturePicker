@@ -17,15 +17,13 @@ function createWindow () {
 
 	ipcMain.handle("preload-pictures", async () => {
 		await loadPicturesFromDB();
-		const pictures = getPicturesByIndex();
-		return pictures;
+		return getPicturesByIndex();
 	});
 
 	ipcMain.handle("load-pictures", async () => {
 		const type = await savePicturesToDB(mainWindow);
 		await loadPicturesFromDB(type);
-		const pictures = getPicturesByIndex();
-		return pictures;
+		return getPicturesByIndex();
 	});
 
 	Menu.setApplicationMenu(null);
