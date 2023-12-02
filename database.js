@@ -70,12 +70,13 @@ async function insertPictures(pictures) {
             db.run("COMMIT;", (err) => {
                 if (err) {
                     reject(err);
+                } else {
+                    console.log("[database] insert completed")
+                    resolve();
                 }
             });
         
             stmt.finalize();
-            console.log("[database] insert completed")
-            resolve();
         });
     });
 }

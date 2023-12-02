@@ -42,7 +42,7 @@ async function loadPicturesFromDB(type) {
 function getPicturesByIndex(index = 0, rank = 0) {
     const pictures = [];
     for (let i = index - 2; i < index + 3; i++) {
-        const picture = picturesRankMap[rank][i] || {};
+        const picture = picturesRankMap?.[rank]?.[i] || {};
         pictures.push(picture);
     }
 

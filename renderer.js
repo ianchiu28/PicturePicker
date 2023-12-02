@@ -72,8 +72,8 @@ function changeRanking(event) {
 }
 
 async function loadPictures() {
-    const picturesInfo = await window.electron.loadPictures();
-    reloadPictures(picturesInfo);
+    await window.electron.loadPictures();
+    await reloadPictures();
 }
 
 function exportRankingsInTxt() {
@@ -99,7 +99,9 @@ function keyDown({ key }) {
     }
 }
 
-function reloadPictures({ pictures, currentIndex }) {
+async function reloadPictures() {
+    const { pictures, currentIndex } = await window.electron.reloadPictures();
+
     currentPictureIndex = currentIndex;
     previewPicture1.setAttribute("src", pictures[0].path || defaultPicture);
     previewPicture2.setAttribute("src", pictures[1].path || defaultPicture);

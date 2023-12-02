@@ -15,15 +15,11 @@ function createWindow () {
 		}
 	});
 
-	ipcMain.handle("preload-pictures", async () => {
-		await loadPicturesFromDB();
-		return getPicturesByIndex();
-	});
+	ipcMain.handle("reload-pictures", () => getPicturesByIndex());
 
 	ipcMain.handle("load-pictures", async () => {
 		const type = await savePicturesToDB(mainWindow);
 		await loadPicturesFromDB(type);
-		return getPicturesByIndex();
 	});
 
 	Menu.setApplicationMenu(null);

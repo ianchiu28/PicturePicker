@@ -8,7 +8,7 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
 window.addEventListener('DOMContentLoaded', async () => {
-    const { pictures } = await ipcRenderer.invoke("preload-pictures");
+    const { pictures } = await ipcRenderer.invoke("reload-pictures");
 
     const defaultPicture = "./empty.jpg";
 
@@ -28,5 +28,6 @@ window.addEventListener('DOMContentLoaded', async () => {
 })
 
 contextBridge.exposeInMainWorld("electron", {
-    loadPictures: () => ipcRenderer.invoke("load-pictures")
+    loadPictures: () => ipcRenderer.invoke("load-pictures"),
+    reloadPictures: () => ipcRenderer.invoke("reload-pictures")
 });
