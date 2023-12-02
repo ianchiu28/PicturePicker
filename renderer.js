@@ -65,7 +65,6 @@ function changeRanking(event) {
 }
 
 function loadImages() {
-    console.log("load image folder");
     window.electron.loadImages();
 }
 

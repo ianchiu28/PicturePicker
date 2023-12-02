@@ -25,6 +25,7 @@ async function createTable() {
                 id INTEGER PRIMARY KEY,
                 name TEXT,
                 path TEXT,
+                type TEXT,
                 rank INTEGER
             );
             `,
@@ -63,7 +64,7 @@ async function insertPictures(pictures) {
         db.serialize(() => {
             db.run("BEGIN TRANSACTION;");
 
-            const stmt = db.prepare("INSERT INTO pictures (name, path, rank) VALUES (?, ?, ?);");
+            const stmt = db.prepare("INSERT INTO pictures (name, path, type, rank) VALUES (?, ?, ?, ?);");
             pictures.forEach((picture) => stmt.run(...picture));
         
             db.run("COMMIT;", (err) => {
