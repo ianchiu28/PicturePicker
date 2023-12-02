@@ -13,10 +13,17 @@ let startCoords = { x: 0, y: 0 };
 
 const mainImageContainer = document.getElementById("main-image-container");
 const mainImage = document.getElementById("main-image");
+const currentRanking = document.getElementById("current-ranking");
 const resetButton = document.getElementById("reset-button");
+const loadImageFolder = document.getElementById("load-image-folder");
+const exportRankings = document.getElementById("export-rankings");
 
 mainImageContainer.addEventListener("wheel", wheelHandler);
 resetButton.addEventListener("click", resetImage);
+currentRanking.addEventListener("change", changeRanking);
+loadImageFolder.addEventListener("click", loadImages);
+exportRankings.addEventListener("click", exportRankingsInTxt);
+document.addEventListener("keydown", keyDown);
 
 function wheelHandler(event) {
     event.preventDefault();
@@ -51,4 +58,36 @@ function move({ deltaX, deltaY }) {
 
 function resetImage() {
     mainImage.style.transform = `translate(0px, 0px) scale(1)`;
+}
+
+function changeRanking(event) {
+    const selectedOption = event.target.value;
+    console.log('Selected option:', selectedOption);
+}
+
+function loadImages() {
+    console.log("load image folder");
+}
+
+function exportRankingsInTxt() {
+    console.log("export rankings");
+}
+
+function keyDown({ key }) {
+    switch(key) {
+        case "ArrowUp":
+            console.log("ArrowUp pressed");
+            break;
+        case "ArrowDown":
+            console.log("ArrowDown pressed");
+            break;
+        case "ArrowLeft":
+            console.log("ArrowLeft pressed");
+            break;
+        case "ArrowRight":
+            console.log("ArrowRight pressed");
+            break;
+        default:
+            break;
+    }
 }
