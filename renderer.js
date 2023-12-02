@@ -11,6 +11,9 @@ const defaultPicture = "./empty.jpg";
 let startScale = 1;
 let startCoords = { x: 0, y: 0 };
 let currentPictureIndex = 0;
+let currentPictureRank = 0;
+let currentPictureMin = 0;
+let currentPictureMax = 0;
 
 const mainPictureContainer = document.getElementById("main-picture-container");
 const mainPicture = document.getElementById("main-picture");
@@ -23,6 +26,7 @@ const previewPicture2 = document.getElementById("preview-picture-2");
 const previewPicture3 = document.getElementById("preview-picture-3");
 const previewPicture4 = document.getElementById("preview-picture-4");
 const previewPicture5 = document.getElementById("preview-picture-5");
+const picturesRankingMap = document.getElementById("pictures-ranking-map");
 
 mainPictureContainer.addEventListener("wheel", wheelHandler);
 resetButton.addEventListener("click", resetPicture);
@@ -30,6 +34,10 @@ currentRanking.addEventListener("change", changeRanking);
 loadPictureFolder.addEventListener("click", savePictures);
 exportRankings.addEventListener("click", exportRankingsInTxt);
 document.addEventListener("keydown", keyDown);
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    reloadPictures();
+});
 
 function wheelHandler(event) {
     event.preventDefault();
@@ -89,9 +97,11 @@ function keyDown({ key }) {
             console.log("ArrowDown pressed");
             break;
         case "ArrowLeft":
+            if (currentPictureIndex === currentPictureMin) return;
             reloadPictures(currentPictureIndex - 1);
             break;
         case "ArrowRight":
+            if (currentPictureIndex === currentPictureMax - 1) return;
             reloadPictures(currentPictureIndex + 1);
             break;
         default:
@@ -100,8 +110,11 @@ function keyDown({ key }) {
 }
 
 async function reloadPictures(index) {
-    const { pictures, currentIndex } = await window.electron.reloadPictures(index);
+    const { pictures, currentIndex, currentRank, picturesRankMap } = await window.electron.reloadPictures(index);
+
     currentPictureIndex = currentIndex;
+    currentPictureRank = currentRank;
+    currentPictureMax = picturesRankMap[currentRank];
 
     previewPicture1.setAttribute("src", pictures[0].path || defaultPicture);
     previewPicture2.setAttribute("src", pictures[1].path || defaultPicture);
@@ -109,4 +122,10 @@ async function reloadPictures(index) {
     previewPicture4.setAttribute("src", pictures[3].path || defaultPicture);
     previewPicture5.setAttribute("src", pictures[4].path || defaultPicture);
     mainPicture.setAttribute("src", pictures[2].path || defaultPicture);
+
+    let rankingMapString = "";
+    for (const [key, value] of Object.entries(picturesRankMap)) {
+        rankingMapString += `Rank ${key}: ${value} picture(s).\n`;
+    }
+    picturesRankingMap.textContent = rankingMapString;
 }

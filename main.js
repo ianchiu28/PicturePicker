@@ -3,7 +3,7 @@ const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 const path = require("node:path");
 
 const database = require("./database");
-const { savePicturesToDB, loadPicturesFromDB, getPicturesByIndex } = require("./pictures");
+const { savePicturesToDB, loadPicturesFromDB, getPicturesByIndex, getPicturesRankMap } = require("./pictures");
 
 function createWindow () {
 	// Create the browser window.
@@ -15,7 +15,11 @@ function createWindow () {
 		}
 	});
 
-	ipcMain.handle("reload-pictures", (_event, index) => getPicturesByIndex(index));
+	ipcMain.handle("reload-pictures", (_event, index) => {
+		const picturesInfo = getPicturesByIndex(index);
+		const picturesRankMap = getPicturesRankMap();
+		return { ...picturesInfo, picturesRankMap };
+	});
 
 	ipcMain.handle("save-pictures", async () => {
 		const type = await savePicturesToDB(mainWindow);

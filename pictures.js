@@ -46,11 +46,20 @@ function getPicturesByIndex(index = 0, rank = 0) {
         pictures.push(picture);
     }
 
-    return { pictures, currentIndex: index };
+    return { pictures, currentIndex: index, currentRank: rank };
+}
+
+function getPicturesRankMap() {
+    return Object.entries(picturesRankMap)
+        .reduce((acc, [key, values]) => {
+            acc[key] = values.length
+            return acc;
+        }, {});
 }
 
 module.exports = {
     savePicturesToDB,
     loadPicturesFromDB,
-    getPicturesByIndex
+    getPicturesByIndex,
+    getPicturesRankMap
 };
