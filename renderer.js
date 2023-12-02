@@ -27,7 +27,7 @@ const previewPicture5 = document.getElementById("preview-picture-5");
 mainPictureContainer.addEventListener("wheel", wheelHandler);
 resetButton.addEventListener("click", resetPicture);
 currentRanking.addEventListener("change", changeRanking);
-loadPictureFolder.addEventListener("click", loadPictures);
+loadPictureFolder.addEventListener("click", savePictures);
 exportRankings.addEventListener("click", exportRankingsInTxt);
 document.addEventListener("keydown", keyDown);
 
@@ -71,8 +71,8 @@ function changeRanking(event) {
     console.log('Selected option:', selectedOption);
 }
 
-async function loadPictures() {
-    await window.electron.loadPictures();
+async function savePictures() {
+    await window.electron.savePictures();
     await reloadPictures();
 }
 
