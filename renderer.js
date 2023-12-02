@@ -5,7 +5,6 @@
  * `contextIsolation` is turned on. Use the contextBridge API in `preload.js`
  * to expose Node.js functionality from the main process.
  */
-
 const SCALE_FACTOR = 0.1;
 const SCALE_MIN = 0.5;
 let startScale = 1;
@@ -67,6 +66,7 @@ function changeRanking(event) {
 
 function loadImages() {
     console.log("load image folder");
+    window.electron.loadImages();
 }
 
 function exportRankingsInTxt() {

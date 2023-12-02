@@ -1,8 +1,9 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Menu } = require("electron");
+const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 const path = require("node:path");
 
 const database = require("./database");
+const { loadImagesFromFolder } = require("./loadImages");
 
 function createWindow () {
 	// Create the browser window.
@@ -13,6 +14,8 @@ function createWindow () {
 		preload: path.join(__dirname, "preload.js")
 		}
 	});
+
+	ipcMain.handle("load-images", () => loadImagesFromFolder(mainWindow));
 
 	Menu.setApplicationMenu(null);
 

@@ -5,4 +5,10 @@
  *
  * https://www.electronjs.org/docs/latest/tutorial/sandbox
  */
+const { contextBridge, ipcRenderer } = require("electron");
+
 window.addEventListener('DOMContentLoaded', () => {})
+
+contextBridge.exposeInMainWorld("electron", {
+    loadImages: () => ipcRenderer.invoke("load-images")
+});
