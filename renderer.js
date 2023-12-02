@@ -89,10 +89,10 @@ function keyDown({ key }) {
             console.log("ArrowDown pressed");
             break;
         case "ArrowLeft":
-            console.log("ArrowLeft pressed");
+            reloadPictures(currentPictureIndex - 1);
             break;
         case "ArrowRight":
-            console.log("ArrowRight pressed");
+            reloadPictures(currentPictureIndex + 1);
             break;
         default:
             break;
