@@ -7,8 +7,7 @@
  */
 
 const SCALE_FACTOR = 0.1;
-const SCALE_MIN = 0.1;
-const SCALE_MAX = 10;
+const SCALE_MIN = 0.5;
 let startScale = 1;
 let startCoords = { x: 0, y: 0 };
 
@@ -37,8 +36,8 @@ function zoom({ deltaY }) {
         startScale += SCALE_FACTOR;
     }
 
-    // startScale should within a range
-    startScale = Math.max(SCALE_MIN, Math.min(startScale, SCALE_MAX));
+    // startScale should have min size
+    startScale = Math.max(SCALE_MIN, startScale);
 
     mainImage.style.transform = `translate(${startCoords.x}px, ${startCoords.y}px) scale(${startScale})`;
 }
