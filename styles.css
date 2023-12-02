@@ -58,11 +58,18 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    height: 150px;
 }
 
 .preview-images img {
-    width: calc(20% - 10px);
-    height: auto;
+    width: 19%;
+    height: 100%;
+    object-fit: contain;
+}
+
+#preview-image-3 {
+    outline: 2px solid red;
+    outline-offset: 5px;
 }
 
 .text-content {
