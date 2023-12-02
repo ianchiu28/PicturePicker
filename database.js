@@ -101,20 +101,21 @@ async function updatePicture(picture) {
     });
 }
 
-async function fetchPictures() {
+async function fetchPictures(type) {
+    const sql = type
+        ? "SELECT * FROM pictures WHERE type = ?;"
+        : "SELECT * FROM pictures;";
+    const values = type ? [type] : [];
+
     return new Promise((resolve, reject) => {
-        db.all(
-            `SELECT * FROM pictures;`,
-            [],
-            (err, rows) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    console.log("[database] fetch completed")
-                    resolve(rows);
-                }
+        db.all(sql, values, (err, rows) => {
+            if (err) {
+                reject(err);
+            } else {
+                console.log("[database] fetch completed")
+                resolve(rows);
             }
-        );
+        });
     });
 }
 

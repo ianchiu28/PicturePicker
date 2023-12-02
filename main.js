@@ -3,7 +3,7 @@ const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 const path = require("node:path");
 
 const database = require("./database");
-const { loadImagesFromFolder } = require("./loadImages");
+const { savePicturesToDB, loadPicturesFromDB, getPicturesByIndex } = require("./pictures");
 
 function createWindow () {
 	// Create the browser window.
@@ -15,7 +15,12 @@ function createWindow () {
 		}
 	});
 
-	ipcMain.handle("load-images", () => loadImagesFromFolder(mainWindow));
+	ipcMain.handle("load-pictures", async () => {
+		const type = await savePicturesToDB(mainWindow);
+		await loadPicturesFromDB(type);
+		const pictures = await getPicturesByIndex();
+		return pictures;
+	});
 
 	Menu.setApplicationMenu(null);
 

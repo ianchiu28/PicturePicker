@@ -10,17 +10,17 @@ const SCALE_MIN = 0.5;
 let startScale = 1;
 let startCoords = { x: 0, y: 0 };
 
-const mainImageContainer = document.getElementById("main-image-container");
-const mainImage = document.getElementById("main-image");
+const mainPictureContainer = document.getElementById("main-picture-container");
+const mainPicture = document.getElementById("main-picture");
 const currentRanking = document.getElementById("current-ranking");
 const resetButton = document.getElementById("reset-button");
-const loadImageFolder = document.getElementById("load-image-folder");
+const loadPictureFolder = document.getElementById("load-picture-folder");
 const exportRankings = document.getElementById("export-rankings");
 
-mainImageContainer.addEventListener("wheel", wheelHandler);
-resetButton.addEventListener("click", resetImage);
+mainPictureContainer.addEventListener("wheel", wheelHandler);
+resetButton.addEventListener("click", resetPicture);
 currentRanking.addEventListener("change", changeRanking);
-loadImageFolder.addEventListener("click", loadImages);
+loadPictureFolder.addEventListener("click", loadPictures);
 exportRankings.addEventListener("click", exportRankingsInTxt);
 document.addEventListener("keydown", keyDown);
 
@@ -45,18 +45,18 @@ function zoom({ deltaY }) {
     // startScale should have min size
     startScale = Math.max(SCALE_MIN, startScale);
 
-    mainImage.style.transform = `translate(${startCoords.x}px, ${startCoords.y}px) scale(${startScale})`;
+    mainPicture.style.transform = `translate(${startCoords.x}px, ${startCoords.y}px) scale(${startScale})`;
 }
 
 function move({ deltaX, deltaY }) {
     startCoords.x -= deltaX;
     startCoords.y -= deltaY;
 
-    mainImage.style.transform = `translate(${startCoords.x}px, ${startCoords.y}px) scale(${startScale})`;
+    mainPicture.style.transform = `translate(${startCoords.x}px, ${startCoords.y}px) scale(${startScale})`;
 }
 
-function resetImage() {
-    mainImage.style.transform = `translate(0px, 0px) scale(1)`;
+function resetPicture() {
+    mainPicture.style.transform = `translate(0px, 0px) scale(1)`;
 }
 
 function changeRanking(event) {
@@ -64,8 +64,9 @@ function changeRanking(event) {
     console.log('Selected option:', selectedOption);
 }
 
-function loadImages() {
-    window.electron.loadImages();
+async function loadPictures() {
+    const pictures = await window.electron.loadPictures();
+    console.log(pictures);
 }
 
 function exportRankingsInTxt() {

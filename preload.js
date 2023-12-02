@@ -10,5 +10,5 @@ const { contextBridge, ipcRenderer } = require("electron");
 window.addEventListener('DOMContentLoaded', () => {})
 
 contextBridge.exposeInMainWorld("electron", {
-    loadImages: () => ipcRenderer.invoke("load-images")
+    loadPictures: () => ipcRenderer.invoke("load-pictures")
 });
