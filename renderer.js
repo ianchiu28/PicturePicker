@@ -99,10 +99,10 @@ function keyDown({ key }) {
     }
 }
 
-async function reloadPictures() {
-    const { pictures, currentIndex } = await window.electron.reloadPictures();
-
+async function reloadPictures(index) {
+    const { pictures, currentIndex } = await window.electron.reloadPictures(index);
     currentPictureIndex = currentIndex;
+
     previewPicture1.setAttribute("src", pictures[0].path || defaultPicture);
     previewPicture2.setAttribute("src", pictures[1].path || defaultPicture);
     previewPicture3.setAttribute("src", pictures[2].path || defaultPicture);

@@ -29,5 +29,5 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 contextBridge.exposeInMainWorld("electron", {
     loadPictures: () => ipcRenderer.invoke("load-pictures"),
-    reloadPictures: () => ipcRenderer.invoke("reload-pictures")
+    reloadPictures: (index) => ipcRenderer.invoke("reload-pictures", index)
 });
