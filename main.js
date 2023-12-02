@@ -18,7 +18,7 @@ function createWindow () {
 	ipcMain.handle("load-pictures", async () => {
 		const type = await savePicturesToDB(mainWindow);
 		await loadPicturesFromDB(type);
-		const pictures = await getPicturesByIndex();
+		const pictures = getPicturesByIndex();
 		return pictures;
 	});
 

@@ -8,24 +8,24 @@ const DEFAULT_RANK = 0;
 const picturesRankMap = {};
 
 async function savePicturesToDB(mainWindow) {
-    // const { canceled, filePaths } = await dialog.showOpenDialog(mainWindow, {
-    //     properties: ["openDirectory"]
-    // });
+    const { canceled, filePaths } = await dialog.showOpenDialog(mainWindow, {
+        properties: ["openDirectory"]
+    });
 
-    // if (canceled) return;
+    if (canceled) return;
 
-    // const folderPath = filePaths[0];
-    // const type = folderPath.split("\\").pop();
-    // const files = fs.readdirSync(folderPath);
-    // const pictures = files.map((file) => [
-    //     file.split(".").shift(),
-    //     `${folderPath}\\${file}`,
-    //     type,
-    //     DEFAULT_RANK
-    // ]);
+    const folderPath = filePaths[0];
+    const type = folderPath.split("\\").pop();
+    const files = fs.readdirSync(folderPath);
+    const pictures = files.map((file) => [
+        file.split(".").shift(),
+        `${folderPath}\\${file}`,
+        type,
+        DEFAULT_RANK
+    ]);
 
-    // await insertPictures(pictures);
-    return "test";
+    await insertPictures(pictures);
+    return type;
 }
 
 async function loadPicturesFromDB(type) {

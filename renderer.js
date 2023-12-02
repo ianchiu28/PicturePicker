@@ -7,6 +7,7 @@
  */
 const SCALE_FACTOR = 0.1;
 const SCALE_MIN = 0.5;
+const defaultPicture = "./empty.jpg";
 let startScale = 1;
 let startCoords = { x: 0, y: 0 };
 
@@ -16,6 +17,11 @@ const currentRanking = document.getElementById("current-ranking");
 const resetButton = document.getElementById("reset-button");
 const loadPictureFolder = document.getElementById("load-picture-folder");
 const exportRankings = document.getElementById("export-rankings");
+const previewPicture1 = document.getElementById("preview-picture-1");
+const previewPicture2 = document.getElementById("preview-picture-2");
+const previewPicture3 = document.getElementById("preview-picture-3");
+const previewPicture4 = document.getElementById("preview-picture-4");
+const previewPicture5 = document.getElementById("preview-picture-5");
 
 mainPictureContainer.addEventListener("wheel", wheelHandler);
 resetButton.addEventListener("click", resetPicture);
@@ -66,7 +72,7 @@ function changeRanking(event) {
 
 async function loadPictures() {
     const pictures = await window.electron.loadPictures();
-    console.log(pictures);
+    reloadPictures(pictures);
 }
 
 function exportRankingsInTxt() {
@@ -90,4 +96,13 @@ function keyDown({ key }) {
         default:
             break;
     }
+}
+
+function reloadPictures(pictures) {
+    previewPicture1.setAttribute("src", pictures[0].path || defaultPicture);
+    previewPicture2.setAttribute("src", pictures[1].path || defaultPicture);
+    previewPicture3.setAttribute("src", pictures[2].path || defaultPicture);
+    previewPicture4.setAttribute("src", pictures[3].path || defaultPicture);
+    previewPicture5.setAttribute("src", pictures[4].path || defaultPicture);
+    mainPicture.setAttribute("src", pictures[2].path || defaultPicture);
 }
