@@ -1,12 +1,44 @@
 /* styles.css */
 
 /* Add styles here to customize the appearance of your app */
-#main-image-container {
-    overflow: hidden;
-    width: 500px;
-    height: 400px;
-    border: 1px solid #ccc;
+
+/* Reset default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+  
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.left {
+    width: 50%;
+    padding: 10px;
+    border-right: 1px solid #ccc;
     position: relative;
+}
+
+#main-image-container {
+    border: 2px dashed #999;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
 #main-image {
@@ -14,5 +46,33 @@
     height: 100%;
     object-fit: contain;
     transition: transform 0.3s ease;
-    position: absolute;
+}
+
+.right {
+    width: 50%;
+    padding: 10px;
+}
+
+.preview-images {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.preview-images img {
+    width: calc(20% - 10px);
+    height: auto;
+}
+
+.text-content {
+    margin-bottom: 20px;
+}
+
+.control-buttons {
+    margin-bottom: 20px;
+}
+
+hr {
+    margin-bottom: 10px;
 }

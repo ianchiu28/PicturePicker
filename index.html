@@ -8,16 +8,31 @@
     <title>PicturePicker!</title>
   </head>
   <body>
-    We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.
-
-    <div id="main-image-container">
-      <img id="main-image" src="DSC00061.JPG" alt="main image">
+    <div class="container">
+      <div class="left">
+        <div id="main-image-container">
+          <img id="main-image" src="DSC00061.JPG" alt="main image">
+        </div>
+      </div>
+      <div class="right">
+        <div class="preview-images">
+          <img src="DSC00061.JPG" alt="Preview Image 1">
+          <img src="DSC00061.JPG" alt="Preview Image 2">
+          <img src="DSC00061.JPG" alt="Preview Image 3">
+          <img src="DSC00061.JPG" alt="Preview Image 4">
+          <img src="DSC00061.JPG" alt="Preview Image 5">
+        </div>
+        <hr>
+        <div class="control-buttons">
+          <button id="reset-button">Reset</button>
+        </div>
+        <hr>
+        <div class="text-content">
+          <p>Text content goes here...</p>
+        </div>
+      </div>
     </div>
 
-    <button id="reset-button">Reset</button>
-  
     <!-- You can also require other files to run in this process -->
     <script src="./renderer.js"></script>
   </body>
