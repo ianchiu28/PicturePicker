@@ -74,9 +74,9 @@ function resetPicture() {
     mainPicture.style.transform = `translate(0px, 0px) scale(1)`;
 }
 
-function changeRanking(event) {
-    const selectedOption = event.target.value;
-    console.log('Selected option:', selectedOption);
+async function changeRanking(event) {
+    const rank = event.target.value;
+    await reloadPictures(0, rank);
 }
 
 async function savePictures() {
@@ -91,30 +91,28 @@ function exportRankingsInTxt() {
 async function keyDown({ key }) {
     switch(key) {
         case "ArrowUp":
-            console.log("ArrowUp pressed");
             await updateRanking(1);
-            await reloadPictures(currentPictureIndex);
+            await reloadPictures(currentPictureIndex, currentPictureRank);
             break;
         case "ArrowDown":
-            console.log("ArrowDown pressed");
             await updateRanking(-1);
-            await reloadPictures(currentPictureIndex);
+            await reloadPictures(currentPictureIndex, currentPictureRank);
             break;
         case "ArrowLeft":
-            if (currentPictureIndex === currentPictureMin) return;
-            await reloadPictures(currentPictureIndex - 1);
+            if (currentPictureIndex <= currentPictureMin) return;
+            await reloadPictures(currentPictureIndex - 1, currentPictureRank);
             break;
         case "ArrowRight":
-            if (currentPictureIndex === currentPictureMax - 1) return;
-            await reloadPictures(currentPictureIndex + 1);
+            if (currentPictureIndex >= currentPictureMax - 1) return;
+            await reloadPictures(currentPictureIndex + 1, currentPictureRank);
             break;
         default:
             break;
     }
 }
 
-async function reloadPictures(index) {
-    const { pictures, currentIndex, currentRank, picturesRankMap } = await window.electron.reloadPictures(index);
+async function reloadPictures(index, rank) {
+    const { pictures, currentIndex, currentRank, picturesRankMap } = await window.electron.reloadPictures(index, rank);
 
     currentPictureIndex = currentIndex;
     currentPictureRank = currentRank;

@@ -59,7 +59,7 @@ function getPicturesRankMap() {
 
 async function updatePictureRank(index, rank, score) {
     const picture = picturesRankMap[rank].splice(index, 1)[0];
-    const newRank = rank + score;
+    const newRank = +rank + score;
     await updatePicture(picture.id, newRank);
 
     if (picturesRankMap[newRank]) {

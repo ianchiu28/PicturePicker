@@ -15,15 +15,15 @@ function createWindow () {
 		}
 	});
 
-	ipcMain.handle("reload-pictures", (_event, index) => {
-		const picturesInfo = getPicturesByIndex(index);
-		const picturesRankMap = getPicturesRankMap();
-		return { ...picturesInfo, picturesRankMap };
-	});
-
 	ipcMain.handle("save-pictures", async () => {
 		const type = await savePicturesToDB(mainWindow);
 		await loadPicturesFromDB(type);
+	});
+
+	ipcMain.handle("reload-pictures", (_event, index, rank) => {
+		const picturesInfo = getPicturesByIndex(index, rank);
+		const picturesRankMap = getPicturesRankMap();
+		return { ...picturesInfo, picturesRankMap };
 	});
 
 	ipcMain.handle("update-ranking", async (_event, index, rank, score) => {
