@@ -1,7 +1,7 @@
 const { dialog } = require("electron");
 const fs = require("fs");
 
-const { insertPictures, fetchPictures } = require("./database");
+const { insertPictures, fetchPictures, updatePicture } = require("./database");
 
 const DEFAULT_RANK = 0;
 
@@ -57,9 +57,22 @@ function getPicturesRankMap() {
         }, {});
 }
 
+async function updatePictureRank(index, rank, score) {
+    const picture = picturesRankMap[rank].splice(index, 1)[0];
+    const newRank = rank + score;
+    await updatePicture(picture.id, newRank);
+
+    if (picturesRankMap[newRank]) {
+        picturesRankMap[newRank].push(picture);
+    } else {
+        picturesRankMap[newRank] = [picture];
+    }
+}
+
 module.exports = {
     savePicturesToDB,
     loadPicturesFromDB,
     getPicturesByIndex,
-    getPicturesRankMap
+    getPicturesRankMap,
+    updatePictureRank
 };

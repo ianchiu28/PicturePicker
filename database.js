@@ -81,7 +81,7 @@ async function insertPictures(pictures) {
     });
 }
 
-async function updatePicture(picture) {
+async function updatePicture(id, newRank) {
     return new Promise((resolve, reject) => {
         db.run(
             `
@@ -89,7 +89,7 @@ async function updatePicture(picture) {
             SET rank = ?
             WHERE id = ?;
             `,
-            [picture],
+            [newRank, id],
             (err) => {
                 if (err) {
                     reject(err);

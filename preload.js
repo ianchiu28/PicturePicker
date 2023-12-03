@@ -11,5 +11,6 @@ window.addEventListener('DOMContentLoaded', () => {})
 
 contextBridge.exposeInMainWorld("electron", {
     savePictures: () => ipcRenderer.invoke("save-pictures"),
-    reloadPictures: (index) => ipcRenderer.invoke("reload-pictures", index)
+    reloadPictures: (index) => ipcRenderer.invoke("reload-pictures", index),
+    updateRanking: (index, rank, score) => ipcRenderer.invoke("update-ranking", index, rank, score)
 });
