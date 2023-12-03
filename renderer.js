@@ -127,8 +127,9 @@ async function reloadPictures(index, rank) {
     previewPicture5.setAttribute("src", pictures[4].path || defaultPicture);
     mainPicture.setAttribute("src", pictures[2].path || defaultPicture);
 
+    const picturesRankArray = Object.entries(picturesRankMap).sort(([a], [b]) => +b - +a);
     let rankingMapString = "";
-    for (const [key, value] of Object.entries(picturesRankMap)) {
+    for (const [key, value] of picturesRankArray) {
         rankingMapString += `Rank ${key}: ${value} picture(s).\n`;
     }
     picturesRankingMap.textContent = rankingMapString;
