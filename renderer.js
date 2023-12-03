@@ -116,6 +116,8 @@ async function reloadPictures(index) {
     currentPictureRank = currentRank;
     currentPictureMax = picturesRankMap[currentRank];
 
+    currentRanking.value = currentPictureRank;
+
     previewPicture1.setAttribute("src", pictures[0].path || defaultPicture);
     previewPicture2.setAttribute("src", pictures[1].path || defaultPicture);
     previewPicture3.setAttribute("src", pictures[2].path || defaultPicture);
