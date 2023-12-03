@@ -20,7 +20,7 @@ const mainPicture = document.getElementById("main-picture");
 const currentRanking = document.getElementById("current-ranking");
 const resetButton = document.getElementById("reset-button");
 const loadPictureFolder = document.getElementById("load-picture-folder");
-const exportRankings = document.getElementById("export-rankings");
+const exportHighestRankingPictures = document.getElementById("export-highest-ranking-pictures");
 const previewPicture1 = document.getElementById("preview-picture-1");
 const previewPicture2 = document.getElementById("preview-picture-2");
 const previewPicture3 = document.getElementById("preview-picture-3");
@@ -32,7 +32,7 @@ mainPictureContainer.addEventListener("wheel", wheelHandler);
 resetButton.addEventListener("click", resetPicture);
 currentRanking.addEventListener("change", changeRanking);
 loadPictureFolder.addEventListener("click", savePictures);
-exportRankings.addEventListener("click", exportRankingsInTxt);
+exportHighestRankingPictures.addEventListener("click", exportRankingsInTxt);
 document.addEventListener("keydown", keyDown);
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -85,7 +85,7 @@ async function savePictures() {
 }
 
 function exportRankingsInTxt() {
-    console.log("export rankings");
+    window.electron.exportHighestRankingPictures();
 }
 
 async function keyDown({ key }) {

@@ -120,10 +120,29 @@ async function fetchPictures(type) {
     });
 }
 
+async function fetchHighestRankPictures(type) {
+    const sql = type
+        ? "SELECT * FROM pictures WHERE rank = (SELECT MAX(rank) FROM pictures) AND type = ?;"
+        : "SELECT * FROM pictures WHERE rank = (SELECT MAX(rank) FROM pictures);";
+    const values = type ? [type] : [];
+
+    return new Promise((resolve, reject) => {
+        db.all(sql, values, (err, rows) => {
+            if (err) {
+                reject(err);
+            } else {
+                console.log("[database] fetch completed")
+                resolve(rows);
+            }
+        });
+    });
+}
+
 module.exports = {
     initDB,
     closeDB,
     insertPictures,
     updatePicture,
-    fetchPictures
+    fetchPictures,
+    fetchHighestRankPictures
 };

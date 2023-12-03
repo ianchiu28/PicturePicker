@@ -1,7 +1,7 @@
 const { dialog } = require("electron");
 const fs = require("fs");
 
-const { insertPictures, fetchPictures, updatePicture } = require("./database");
+const { insertPictures, fetchPictures, updatePicture, fetchHighestRankPictures } = require("./database");
 
 const DEFAULT_RANK = 0;
 
@@ -69,10 +69,24 @@ async function updatePictureRank(index, rank, score) {
     }
 }
 
+async function exportHighestRankingPictures() {
+    const pictures = await fetchHighestRankPictures();
+    const pictureNames = pictures.map(({ name }) => name).join("\n");
+
+    fs.writeFile("highest-pictures.txt", pictureNames, (err) => {
+        if (err) {
+            console.error("write file error:", err);
+            return;
+        }
+        console.log("write file successfully");
+    });
+}
+
 module.exports = {
     savePicturesToDB,
     loadPicturesFromDB,
     getPicturesByIndex,
     getPicturesRankMap,
-    updatePictureRank
+    updatePictureRank,
+    exportHighestRankingPictures
 };

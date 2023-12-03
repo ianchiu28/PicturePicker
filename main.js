@@ -3,7 +3,7 @@ const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 const path = require("node:path");
 
 const database = require("./database");
-const { savePicturesToDB, loadPicturesFromDB, getPicturesByIndex, getPicturesRankMap, updatePictureRank } = require("./pictures");
+const { savePicturesToDB, loadPicturesFromDB, getPicturesByIndex, getPicturesRankMap, updatePictureRank, exportHighestRankingPictures } = require("./pictures");
 
 function createWindow () {
 	// Create the browser window.
@@ -29,6 +29,8 @@ function createWindow () {
 	ipcMain.handle("update-ranking", async (_event, index, rank, score) => {
 		await updatePictureRank(index, rank, score);
 	});
+
+	ipcMain.handle("export-highest-ranking-pictures", exportHighestRankingPictures);
 
 	Menu.setApplicationMenu(null);
 
