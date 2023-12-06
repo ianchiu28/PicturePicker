@@ -7,7 +7,7 @@
  */
 const SCALE_FACTOR = 0.1;
 const SCALE_MIN = 0.5;
-const defaultPicture = "./empty.jpg";
+const defaultPicture = "../../../../resources/images/empty.jpg";
 let startScale = 1;
 let startCoords = { x: 0, y: 0 };
 let currentPictureIndex = 0;

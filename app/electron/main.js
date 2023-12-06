@@ -2,8 +2,8 @@
 const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 const path = require("node:path");
 
-const database = require("./database");
-const { savePicturesToDB, loadPicturesFromDB, getPicturesByIndex, getPicturesRankMap, updatePictureRank, exportHighestRankingPictures } = require("./pictures");
+const database = require("../src/utils/database");
+const { savePicturesToDB, loadPicturesFromDB, getPicturesByIndex, getPicturesRankMap, updatePictureRank, exportHighestRankingPictures } = require("../src/utils/pictures");
 
 function createWindow () {
 	// Create the browser window.
@@ -35,7 +35,7 @@ function createWindow () {
 	Menu.setApplicationMenu(null);
 
 	// and load the index.html of the app.
-	mainWindow.loadFile("index.html");
+	mainWindow.loadFile("app/src/pages/index/index.html");
 
 	// Open the DevTools.
 	mainWindow.webContents.openDevTools();
