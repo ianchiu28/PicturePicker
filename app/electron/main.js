@@ -3,7 +3,7 @@ const { app, BrowserWindow } = require("electron");
 
 const database = require("../src/utils/database");
 const { initializeIpc } = require("../src/utils/ipc");
-const { loadPicturesFromDB } = require("../src/utils/pictures");
+const { loadPicturesFromDB } = require("../src/utils/picture");
 const WindowSingleton = require("../src/utils/window");
 
 // This method will be called when Electron has finished
