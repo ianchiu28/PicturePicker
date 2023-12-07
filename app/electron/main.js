@@ -1,32 +1,10 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, Menu, ipcMain } = require("electron");
-const path = require("node:path");
+const { app, BrowserWindow } = require("electron");
 
 const database = require("../src/utils/database");
-const { savePicturesToDB, loadPicturesFromDB, getPicturesByIndex, getPicturesRankMap, updatePictureRank, exportHighestRankingPictures } = require("../src/utils/pictures");
+const { initializeIpc } = require("../src/utils/ipc");
+const { loadPicturesFromDB } = require("../src/utils/pictures");
 const WindowSingleton = require("../src/utils/window");
-
-function createWindow () {
-	ipcMain.handle("save-pictures", async () => {
-		const folderPath = await WindowSingleton.getInstance().openDirectory();
-		if (!folderPath) return;
-		
-		const type = await savePicturesToDB(folderPath);
-		await loadPicturesFromDB(type);
-	});
-
-	ipcMain.handle("reload-pictures", (_event, index, rank) => {
-		const picturesInfo = getPicturesByIndex(index, rank);
-		const picturesRankMap = getPicturesRankMap();
-		return { ...picturesInfo, picturesRankMap };
-	});
-
-	ipcMain.handle("update-ranking", async (_event, index, rank, score) => {
-		await updatePictureRank(index, rank, score);
-	});
-
-	ipcMain.handle("export-highest-ranking-pictures", exportHighestRankingPictures);
-}
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -36,7 +14,7 @@ app.whenReady().then(async () => {
 	await loadPicturesFromDB();
 
 	WindowSingleton.getInstance().initialize();
-	createWindow();
+	initializeIpc();
 
 	app.on("activate", () => {
 		// On macOS it's common to re-create a window in the app when the

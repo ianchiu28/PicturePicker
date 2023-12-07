@@ -1,4 +1,3 @@
-const { dialog } = require("electron");
 const fs = require("fs");
 
 const { insertPictures, fetchPictures, updatePicture, fetchHighestRankPictures } = require("./database");
