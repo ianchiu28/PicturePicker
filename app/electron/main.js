@@ -8,7 +8,10 @@ const WindowSingleton = require("../src/utils/window");
 
 function createWindow () {
 	ipcMain.handle("save-pictures", async () => {
-		const type = await savePicturesToDB(mainWindow);
+		const folderPath = await WindowSingleton.getInstance().openDirectory();
+		if (!folderPath) return;
+		
+		const type = await savePicturesToDB(folderPath);
 		await loadPicturesFromDB(type);
 	});
 

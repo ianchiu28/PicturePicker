@@ -7,14 +7,7 @@ const DEFAULT_RANK = 0;
 
 const picturesRankMap = {};
 
-async function savePicturesToDB(mainWindow) {
-    const { canceled, filePaths } = await dialog.showOpenDialog(mainWindow, {
-        properties: ["openDirectory"]
-    });
-
-    if (canceled) return;
-
-    const folderPath = filePaths[0];
+async function savePicturesToDB(folderPath) {
     const type = folderPath.split("\\").pop();
     const files = fs.readdirSync(folderPath);
     const pictures = files.map((file) => [

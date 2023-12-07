@@ -1,4 +1,4 @@
-const { BrowserWindow, Menu } = require("electron");
+const { BrowserWindow, Menu, dialog } = require("electron");
 const path = require("node:path");
 
 class Window {
@@ -23,6 +23,15 @@ class Window {
 
         // Open the DevTools.
         this.#mainWindow.webContents.openDevTools();
+    }
+
+    async openDirectory() {
+        const { canceled, filePaths } = await dialog.showOpenDialog(this.#mainWindow, {
+            properties: ["openDirectory"]
+        });
+
+        if (canceled) return null;
+        return filePaths[0];
     }
 }
 
