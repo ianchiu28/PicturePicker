@@ -22,7 +22,7 @@ class Window {
         this.#mainWindow.loadFile("app/src/pages/index/index.html");
 
         // Open the DevTools.
-        this.#mainWindow.webContents.openDevTools();
+        // this.#mainWindow.webContents.openDevTools();
     }
 
     async openDirectory() {
