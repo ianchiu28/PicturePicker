@@ -4,17 +4,9 @@ const path = require("node:path");
 
 const database = require("../src/utils/database");
 const { savePicturesToDB, loadPicturesFromDB, getPicturesByIndex, getPicturesRankMap, updatePictureRank, exportHighestRankingPictures } = require("../src/utils/pictures");
+const WindowSingleton = require("../src/utils/window");
 
 function createWindow () {
-	// Create the browser window.
-	const mainWindow = new BrowserWindow({
-		width: 1600,
-		height: 900,
-		webPreferences: {
-		preload: path.join(__dirname, "preload.js")
-		}
-	});
-
 	ipcMain.handle("save-pictures", async () => {
 		const type = await savePicturesToDB(mainWindow);
 		await loadPicturesFromDB(type);
@@ -31,14 +23,6 @@ function createWindow () {
 	});
 
 	ipcMain.handle("export-highest-ranking-pictures", exportHighestRankingPictures);
-
-	Menu.setApplicationMenu(null);
-
-	// and load the index.html of the app.
-	mainWindow.loadFile("app/src/pages/index/index.html");
-
-	// Open the DevTools.
-	mainWindow.webContents.openDevTools();
 }
 
 // This method will be called when Electron has finished
@@ -48,6 +32,7 @@ app.whenReady().then(async () => {
 	await database.initDB();
 	await loadPicturesFromDB();
 
+	WindowSingleton.getInstance().initialize();
 	createWindow();
 
 	app.on("activate", () => {
