@@ -11,11 +11,8 @@ const savePictures = async () => {
 	await pictureService.loadPicturesFromDB(type);
 };
 
-const reloadPictures = (_event, index, rank) => {
-	const picturesInfo = pictureService.getPicturesByIndex(index, rank);
-	const picturesRankMap = pictureService.getPicturesRankMap();
-	return { ...picturesInfo, picturesRankMap };
-};
+const reloadPictures = (_event, index, rank) =>
+	pictureService.reloadPictures(index, rank);
 
 const updateRank = async (_event, index, rank, score) =>
 	pictureService.updatePictureRank(index, rank, score);

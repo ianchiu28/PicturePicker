@@ -112,11 +112,11 @@ async function keyDown({ key }) {
 }
 
 async function reloadPictures(index, rank) {
-    const { pictures, currentIndex, currentRank, picturesRankMap } = await window.electron.reloadPictures(index, rank);
+    const { pictures, currentIndex, currentRank, picturesRankCount } = await window.electron.reloadPictures(index, rank);
 
     currentPictureIndex = currentIndex;
     currentPictureRank = currentRank;
-    currentPictureMax = picturesRankMap[currentRank];
+    currentPictureMax = picturesRankCount[currentRank];
 
     currentRanking.value = currentPictureRank;
 
@@ -127,7 +127,7 @@ async function reloadPictures(index, rank) {
     previewPicture5.setAttribute("src", pictures[4].path || defaultPicture);
     mainPicture.setAttribute("src", pictures[2].path || defaultPicture);
 
-    const picturesRankArray = Object.entries(picturesRankMap).sort(([a], [b]) => +b - +a);
+    const picturesRankArray = Object.entries(picturesRankCount).sort(([a], [b]) => +b - +a);
     let rankingMapString = "";
     for (const [key, value] of picturesRankArray) {
         rankingMapString += `Rank ${key}: ${value} picture(s).\n`;

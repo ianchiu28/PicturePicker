@@ -30,29 +30,35 @@ const loadPicturesFromDB = async (type) => {
     }
 };
 
-const getPicturesByIndex = (index = 0, rank = 0) => {
+const reloadPictures = (index = 0, rank = 0) => {
     const pictures = [];
     for (let i = index - 2; i < index + 3; i++) {
         const picture = picturesRankMap?.[rank]?.[i] || {};
         pictures.push(picture);
     }
 
-    return { pictures, currentIndex: index, currentRank: rank };
-};
-
-const getPicturesRankMap = () => {
-    return Object.entries(picturesRankMap)
+    const picturesRankCount = Object.entries(picturesRankMap)
         .reduce((acc, [key, values]) => {
             acc[key] = values.length
             return acc;
         }, {});
+
+    return {
+        pictures,
+        currentIndex: index,
+        currentRank: rank,
+        picturesRankCount
+    };
 };
 
 const updatePictureRank = async (index, rank, score) => {
     const picture = picturesRankMap[rank].splice(index, 1)[0];
     const newRank = +rank + score;
+
+    // update database
     await pictureModel.updatePicture(picture.id, newRank);
 
+    // update memory map
     if (picturesRankMap[newRank]) {
         picturesRankMap[newRank].push(picture);
     } else {
@@ -71,8 +77,7 @@ const exportHighestRankPictures = async () => {
 module.exports = {
     savePicturesToDB,
     loadPicturesFromDB,
-    getPicturesByIndex,
-    getPicturesRankMap,
+    reloadPictures,
     updatePictureRank,
     exportHighestRankPictures
 };
