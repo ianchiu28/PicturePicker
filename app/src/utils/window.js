@@ -33,6 +33,10 @@ class Window {
         if (canceled) return null;
         return filePaths[0];
     }
+
+    async showMessageBox(title, message) {
+        dialog.showMessageBox(this.#mainWindow, { title, message });
+    }
 }
 
 class WindowSingleton {

@@ -1,5 +1,6 @@
 const pictureModel = require("../models/picture.model");
 const { getFiles, writeFile } = require("../utils/fs");
+const WindowSingleton = require("../utils/window");
 
 const DEFAULT_RANK = 0;
 const picturesRankMap = {};
@@ -64,6 +65,7 @@ const exportHighestRankPictures = async () => {
     const pictureNames = pictures.map(({ name }) => name).join("\n");
 
     writeFile("highest-pictures.txt", pictureNames);
+    WindowSingleton.getInstance().showMessageBox("Success", "Export successfully!");
 };
 
 module.exports = {
