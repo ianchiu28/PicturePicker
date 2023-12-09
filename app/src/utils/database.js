@@ -61,6 +61,17 @@ class Database {
         });
     }
 
+    async run(sql, values) {
+        return new Promise((resolve, reject) => {
+            this.#database.run(sql, values, (err) => {
+                if (err) return reject(err);
+
+                console.log("[database] run completed")
+                resolve();
+            });
+        });
+    }
+
     async insertPictures(pictures) {
         return new Promise((resolve, reject) => {
             this.#database.serialize(() => {
@@ -80,27 +91,6 @@ class Database {
             
                 stmt.finalize();
             });
-        });
-    }
-    
-    async updatePicture(id, newRank) {
-        return new Promise((resolve, reject) => {
-            this.#database.run(
-                `
-                UPDATE pictures
-                SET rank = ?
-                WHERE id = ?;
-                `,
-                [newRank, id],
-                (err) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        console.log("[database] update completed")
-                        resolve();
-                    }
-                }
-            );
         });
     }
 }

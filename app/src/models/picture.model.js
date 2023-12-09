@@ -42,28 +42,15 @@ const getHighestRankPicturesByType = async (type) => {
     return database.getAll(sql, values);
 };
 
-// async updatePicture(id, newRank) {
-//     return new Promise((resolve, reject) => {
-//         this.#database.run(
-//             `
-//             UPDATE pictures
-//             SET rank = ?
-//             WHERE id = ?;
-//             `,
-//             [newRank, id],
-//             (err) => {
-//                 if (err) {
-//                     reject(err);
-//                 } else {
-//                     console.log("[database] update completed")
-//                     resolve();
-//                 }
-//             }
-//         );
-//     });
-// }
+const updatePicture = async (id, newRank) => {
+    const sql = "UPDATE pictures SET rank = ? WHERE id = ?;";
+    const values = [newRank, id];
+
+    return database.run(sql, values);
+};
 
 module.exports = {
     getPicturesByType,
-    getHighestRankPicturesByType
+    getHighestRankPicturesByType,
+    updatePicture
 };

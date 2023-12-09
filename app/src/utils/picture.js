@@ -54,7 +54,7 @@ function getPicturesRankMap() {
 async function updatePictureRank(index, rank, score) {
     const picture = picturesRankMap[rank].splice(index, 1)[0];
     const newRank = +rank + score;
-    await database.updatePicture(picture.id, newRank);
+    await pictureModel.updatePicture(picture.id, newRank);
 
     if (picturesRankMap[newRank]) {
         picturesRankMap[newRank].push(picture);
