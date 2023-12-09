@@ -1,15 +1,9 @@
 const { ipcMain } = require("electron");
 
 const pictureService = require("../src/services/picture.service");
-const WindowSingleton = require("../src/utils/window");
 
-const savePictures = async () => {
-	const folderPath = await WindowSingleton.getInstance().openDirectory();
-	if (!folderPath) return;
-	
-	const type = await pictureService.savePicturesToDB(folderPath);
-	await pictureService.loadPicturesFromDB(type);
-};
+const savePictures = async () => 
+	pictureService.savePicturesToDB();
 
 const reloadPictures = (_event, index, rank) =>
 	pictureService.reloadPictures(index, rank);

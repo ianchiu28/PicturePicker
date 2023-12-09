@@ -5,7 +5,10 @@ const WindowSingleton = require("../utils/window");
 const DEFAULT_RANK = 0;
 const picturesRankMap = {};
 
-const savePicturesToDB = async (folderPath) => {
+const savePicturesToDB = async () => {
+    const folderPath = await WindowSingleton.getInstance().openDirectory();
+	if (!folderPath) return;
+
     const type = folderPath.split("\\").pop();
     const files = getFiles(folderPath);
     const pictures = files.map((file) => [
@@ -16,7 +19,7 @@ const savePicturesToDB = async (folderPath) => {
     ]);
 
     await pictureModel.insertPictures(pictures);
-    return type;
+    await loadPicturesFromDB(type);
 };
 
 const loadPicturesFromDB = async (type) => {
