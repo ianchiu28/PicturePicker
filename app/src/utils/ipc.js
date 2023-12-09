@@ -17,9 +17,8 @@ const reloadPictures = (_event, index, rank) => {
 	return { ...picturesInfo, picturesRankMap };
 };
 
-const updateRank = async (_event, index, rank, score) => {
-	await pictureUtils.updatePictureRank(index, rank, score);
-};
+const updateRank = async (_event, index, rank, score) =>
+	pictureUtils.updatePictureRank(index, rank, score);
 
 const exportHighestRankPictures = pictureUtils.exportHighestRankPictures;
 
