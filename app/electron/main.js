@@ -2,7 +2,7 @@
 const { app, BrowserWindow } = require("electron");
 
 const DatabaseSingleton = require("../src/utils/database");
-const { initializeIpc } = require("../src/utils/ipc");
+const { initializeIpc } = require("./ipc");
 const { loadPicturesFromDB } = require("../src/services/picture.service");
 const WindowSingleton = require("../src/utils/window");
 

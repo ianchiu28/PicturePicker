@@ -1,7 +1,7 @@
 const { ipcMain } = require("electron");
 
-const pictureService = require("../services/picture.service");
-const WindowSingleton = require("./window");
+const pictureService = require("../src/services/picture.service");
+const WindowSingleton = require("../src/utils/window");
 
 const savePictures = async () => {
 	const folderPath = await WindowSingleton.getInstance().openDirectory();
