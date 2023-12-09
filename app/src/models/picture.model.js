@@ -33,6 +33,15 @@ const getPicturesByType = async (type) => {
     return database.getAll(sql, values);
 };
 
+const getHighestRankPicturesByType = async (type) => {
+    const sql = type
+        ? "SELECT * FROM pictures WHERE rank = (SELECT MAX(rank) FROM pictures) AND type = ?;"
+        : "SELECT * FROM pictures WHERE rank = (SELECT MAX(rank) FROM pictures);";
+    const values = type ? [type] : [];
+
+    return database.getAll(sql, values);
+};
+
 // async updatePicture(id, newRank) {
 //     return new Promise((resolve, reject) => {
 //         this.#database.run(
@@ -54,26 +63,7 @@ const getPicturesByType = async (type) => {
 //     });
 // }
 
-
-
-// async fetchHighestRankPictures(type) {
-//     const sql = type
-//         ? "SELECT * FROM pictures WHERE rank = (SELECT MAX(rank) FROM pictures) AND type = ?;"
-//         : "SELECT * FROM pictures WHERE rank = (SELECT MAX(rank) FROM pictures);";
-//     const values = type ? [type] : [];
-
-//     return new Promise((resolve, reject) => {
-//         this.#database.all(sql, values, (err, rows) => {
-//             if (err) {
-//                 reject(err);
-//             } else {
-//                 console.log("[database] fetch completed")
-//                 resolve(rows);
-//             }
-//         });
-//     });
-// }
-
 module.exports = {
-    getPicturesByType
+    getPicturesByType,
+    getHighestRankPicturesByType
 };

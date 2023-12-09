@@ -64,7 +64,7 @@ async function updatePictureRank(index, rank, score) {
 }
 
 async function exportHighestRankingPictures() {
-    const pictures = await database.fetchHighestRankPictures();
+    const pictures = await pictureModel.getHighestRankPicturesByType();
     const pictureNames = pictures.map(({ name }) => name).join("\n");
 
     fs.writeFile("highest-pictures.txt", pictureNames, (err) => {

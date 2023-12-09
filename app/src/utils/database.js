@@ -103,24 +103,6 @@ class Database {
             );
         });
     }
-    
-    async fetchHighestRankPictures(type) {
-        const sql = type
-            ? "SELECT * FROM pictures WHERE rank = (SELECT MAX(rank) FROM pictures) AND type = ?;"
-            : "SELECT * FROM pictures WHERE rank = (SELECT MAX(rank) FROM pictures);";
-        const values = type ? [type] : [];
-    
-        return new Promise((resolve, reject) => {
-            this.#database.all(sql, values, (err, rows) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    console.log("[database] fetch completed")
-                    resolve(rows);
-                }
-            });
-        });
-    }
 }
 
 class DatabaseSingleton {
