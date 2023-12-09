@@ -9,7 +9,7 @@ function initializeIpc () {
 		if (!folderPath) return;
 		
 		const type = await pictureUtils.savePicturesToDB(folderPath);
-		await loadPicturesFromDB(type);
+		await pictureUtils.loadPicturesFromDB(type);
 	});
 
 	ipcMain.handle("reload-pictures", (_event, index, rank) => {

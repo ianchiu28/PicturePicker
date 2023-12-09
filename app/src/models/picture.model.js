@@ -2,27 +2,12 @@ const DatabaseSingleton = require("../utils/database");
 
 const database = DatabaseSingleton.getInstance();
 
-// async insertPictures(pictures) {
-//     return new Promise((resolve, reject) => {
-//         this.#database.serialize(() => {
-//             this.#database.run("BEGIN TRANSACTION;");
+const insertPictures = async (pictures) => {
+    const sql = "INSERT INTO pictures (name, path, type, rank) VALUES (?, ?, ?, ?);";
+    const values = pictures;
 
-//             const stmt = this.#database.prepare("INSERT INTO pictures (name, path, type, rank) VALUES (?, ?, ?, ?);");
-//             pictures.forEach((picture) => stmt.run(...picture));
-        
-//             this.#database.run("COMMIT;", (err) => {
-//                 if (err) {
-//                     reject(err);
-//                 } else {
-//                     console.log("[database] insert completed")
-//                     resolve();
-//                 }
-//             });
-        
-//             stmt.finalize();
-//         });
-//     });
-// }
+    return database.batchRun(sql, values);
+};
 
 const getPicturesByType = async (type) => {
     const sql = type
@@ -50,6 +35,7 @@ const updatePicture = async (id, newRank) => {
 };
 
 module.exports = {
+    insertPictures,
     getPicturesByType,
     getHighestRankPicturesByType,
     updatePicture

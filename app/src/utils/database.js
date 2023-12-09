@@ -72,21 +72,19 @@ class Database {
         });
     }
 
-    async insertPictures(pictures) {
+    async batchRun(sql, values) {
         return new Promise((resolve, reject) => {
             this.#database.serialize(() => {
                 this.#database.run("BEGIN TRANSACTION;");
     
-                const stmt = this.#database.prepare("INSERT INTO pictures (name, path, type, rank) VALUES (?, ?, ?, ?);");
-                pictures.forEach((picture) => stmt.run(...picture));
+                const stmt = this.#database.prepare(sql);
+                values.forEach((value) => stmt.run(...value));
             
                 this.#database.run("COMMIT;", (err) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        console.log("[database] insert completed")
-                        resolve();
-                    }
+                    if (err) return reject(err);
+
+                    console.log("[database] batchRun completed")
+                    resolve();
                 });
             
                 stmt.finalize();

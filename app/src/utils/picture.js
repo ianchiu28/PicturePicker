@@ -18,7 +18,7 @@ async function savePicturesToDB(folderPath) {
         DEFAULT_RANK
     ]);
 
-    await database.insertPictures(pictures);
+    await pictureModel.insertPictures(pictures);
     return type;
 }
 
