@@ -1,14 +1,11 @@
 const fs = require("fs");
 
 const pictureModel = require("../models/picture.model");
-const DatabaseSingleton = require("./database");
-
-const database = DatabaseSingleton.getInstance();
 
 const DEFAULT_RANK = 0;
 const picturesRankMap = {};
 
-async function savePicturesToDB(folderPath) {
+const savePicturesToDB = async (folderPath) => {
     const type = folderPath.split("\\").pop();
     const files = fs.readdirSync(folderPath);
     const pictures = files.map((file) => [
@@ -20,9 +17,9 @@ async function savePicturesToDB(folderPath) {
 
     await pictureModel.insertPictures(pictures);
     return type;
-}
+};
 
-async function loadPicturesFromDB(type) {
+const loadPicturesFromDB = async (type) => {
     const pictures = await pictureModel.getPicturesByType(type);
     for (const picture of pictures) {
         if (picturesRankMap[picture.rank]) {
@@ -31,9 +28,9 @@ async function loadPicturesFromDB(type) {
             picturesRankMap[picture.rank] = [picture];
         }
     }
-}
+};
 
-function getPicturesByIndex(index = 0, rank = 0) {
+const getPicturesByIndex = async (index = 0, rank = 0) => {
     const pictures = [];
     for (let i = index - 2; i < index + 3; i++) {
         const picture = picturesRankMap?.[rank]?.[i] || {};
@@ -41,17 +38,17 @@ function getPicturesByIndex(index = 0, rank = 0) {
     }
 
     return { pictures, currentIndex: index, currentRank: rank };
-}
+};
 
-function getPicturesRankMap() {
+const getPicturesRankMap = () => {
     return Object.entries(picturesRankMap)
         .reduce((acc, [key, values]) => {
             acc[key] = values.length
             return acc;
         }, {});
-}
+};
 
-async function updatePictureRank(index, rank, score) {
+const updatePictureRank = async (index, rank, score) => {
     const picture = picturesRankMap[rank].splice(index, 1)[0];
     const newRank = +rank + score;
     await pictureModel.updatePicture(picture.id, newRank);
@@ -61,9 +58,9 @@ async function updatePictureRank(index, rank, score) {
     } else {
         picturesRankMap[newRank] = [picture];
     }
-}
+};
 
-async function exportHighestRankPictures() {
+const exportHighestRankPictures = async () => {
     const pictures = await pictureModel.getHighestRankPicturesByType();
     const pictureNames = pictures.map(({ name }) => name).join("\n");
 
@@ -74,7 +71,7 @@ async function exportHighestRankPictures() {
         }
         console.log("write file successfully");
     });
-}
+};
 
 module.exports = {
     savePicturesToDB,
