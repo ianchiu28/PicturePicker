@@ -2,147 +2,145 @@ const sqlite3 = require('sqlite3').verbose();
 
 const DATABASE = "picturePicker.db";
 
-let db = null;
+class Database {
+    #database;
 
-async function connectDB() {
-    return new Promise((resolve, reject) => {
-        db = new sqlite3.Database(DATABASE, (err) => {
-            if (err) {
-                reject(err);
-            } else {
+    constructor() {}
+
+    async connect() {
+        return new Promise((resolve, reject) => {
+            this.#database = new sqlite3.Database(DATABASE, (err) => {
+                if (err) return reject(err);
+
                 console.log("[database] connected");
-                resolve(db);
-            }
+                resolve();
+            });
         });
-    });
-}
+    }
 
-async function createTable() {
-    return new Promise((resolve, reject) => {
-        db.run(
-            `
+    async close() {
+        return new Promise((resolve, reject) => {
+            this.#database.close((err) => {
+                if (err) return reject(err);
+
+                console.log("[database] closed");
+                resolve();
+            });
+        });
+    }
+
+    async initialize() {
+        const sql = `
             CREATE TABLE IF NOT EXISTS pictures (
                 id INTEGER PRIMARY KEY,
                 name TEXT,
                 path TEXT,
                 type TEXT,
                 rank INTEGER
-            );
-            `,
-            (err) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    console.log("[database] table created");
-                    resolve();
-                }
-            }
-        );
-    });
-}
+            )
+            ;`;
 
-async function initDB() {
-    await connectDB();
-    await createTable();
-}
-
-async function closeDB() {
-    return new Promise((resolve, reject) => {
-        db.close((err) => {
-            if (err) {
-                reject(err);
-            } else {
-                console.log("[database] closed");
+        return new Promise((resolve, reject) => {
+            this.#database.run(sql, (err) => {
+                if (err) return reject(err);
+                
+                console.log("[database] table created");
                 resolve();
-            }
+            });
         });
-    });
-}
+    }
 
-async function insertPictures(pictures) {
-    return new Promise((resolve, reject) => {
-        db.serialize(() => {
-            db.run("BEGIN TRANSACTION;");
-
-            const stmt = db.prepare("INSERT INTO pictures (name, path, type, rank) VALUES (?, ?, ?, ?);");
-            pictures.forEach((picture) => stmt.run(...picture));
-        
-            db.run("COMMIT;", (err) => {
+    async insertPictures(pictures) {
+        return new Promise((resolve, reject) => {
+            this.#database.serialize(() => {
+                this.#database.run("BEGIN TRANSACTION;");
+    
+                const stmt = this.#database.prepare("INSERT INTO pictures (name, path, type, rank) VALUES (?, ?, ?, ?);");
+                pictures.forEach((picture) => stmt.run(...picture));
+            
+                this.#database.run("COMMIT;", (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        console.log("[database] insert completed")
+                        resolve();
+                    }
+                });
+            
+                stmt.finalize();
+            });
+        });
+    }
+    
+    async updatePicture(id, newRank) {
+        return new Promise((resolve, reject) => {
+            this.#database.run(
+                `
+                UPDATE pictures
+                SET rank = ?
+                WHERE id = ?;
+                `,
+                [newRank, id],
+                (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        console.log("[database] update completed")
+                        resolve();
+                    }
+                }
+            );
+        });
+    }
+    
+    async fetchPictures(type) {
+        const sql = type
+            ? "SELECT * FROM pictures WHERE type = ?;"
+            : "SELECT * FROM pictures;";
+        const values = type ? [type] : [];
+    
+        return new Promise((resolve, reject) => {
+            this.#database.all(sql, values, (err, rows) => {
                 if (err) {
                     reject(err);
                 } else {
-                    console.log("[database] insert completed")
-                    resolve();
+                    console.log("[database] fetch completed")
+                    resolve(rows);
                 }
             });
-        
-            stmt.finalize();
         });
-    });
-}
-
-async function updatePicture(id, newRank) {
-    return new Promise((resolve, reject) => {
-        db.run(
-            `
-            UPDATE pictures
-            SET rank = ?
-            WHERE id = ?;
-            `,
-            [newRank, id],
-            (err) => {
+    }
+    
+    async fetchHighestRankPictures(type) {
+        const sql = type
+            ? "SELECT * FROM pictures WHERE rank = (SELECT MAX(rank) FROM pictures) AND type = ?;"
+            : "SELECT * FROM pictures WHERE rank = (SELECT MAX(rank) FROM pictures);";
+        const values = type ? [type] : [];
+    
+        return new Promise((resolve, reject) => {
+            this.#database.all(sql, values, (err, rows) => {
                 if (err) {
                     reject(err);
                 } else {
-                    console.log("[database] update completed")
-                    resolve();
+                    console.log("[database] fetch completed")
+                    resolve(rows);
                 }
-            }
-        );
-    });
-}
-
-async function fetchPictures(type) {
-    const sql = type
-        ? "SELECT * FROM pictures WHERE type = ?;"
-        : "SELECT * FROM pictures;";
-    const values = type ? [type] : [];
-
-    return new Promise((resolve, reject) => {
-        db.all(sql, values, (err, rows) => {
-            if (err) {
-                reject(err);
-            } else {
-                console.log("[database] fetch completed")
-                resolve(rows);
-            }
+            });
         });
-    });
+    }
 }
 
-async function fetchHighestRankPictures(type) {
-    const sql = type
-        ? "SELECT * FROM pictures WHERE rank = (SELECT MAX(rank) FROM pictures) AND type = ?;"
-        : "SELECT * FROM pictures WHERE rank = (SELECT MAX(rank) FROM pictures);";
-    const values = type ? [type] : [];
+class DatabaseSingleton {
+    static #instance;
 
-    return new Promise((resolve, reject) => {
-        db.all(sql, values, (err, rows) => {
-            if (err) {
-                reject(err);
-            } else {
-                console.log("[database] fetch completed")
-                resolve(rows);
-            }
-        });
-    });
+    constructor() {
+        console.error("should use getInstance()!");
+    }
+
+    static getInstance() {
+        if (!this.#instance) this.#instance = new Database();
+        return this.#instance;
+    }
 }
 
-module.exports = {
-    initDB,
-    closeDB,
-    insertPictures,
-    updatePicture,
-    fetchPictures,
-    fetchHighestRankPictures
-};
+module.exports = DatabaseSingleton;

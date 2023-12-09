@@ -1,6 +1,7 @@
 const fs = require("fs");
 
-const { insertPictures, fetchPictures, updatePicture, fetchHighestRankPictures } = require("./database");
+const DatabaseSingleton = require("./database.js");
+const database = DatabaseSingleton.getInstance();
 
 const DEFAULT_RANK = 0;
 
@@ -16,12 +17,12 @@ async function savePicturesToDB(folderPath) {
         DEFAULT_RANK
     ]);
 
-    await insertPictures(pictures);
+    await database.insertPictures(pictures);
     return type;
 }
 
 async function loadPicturesFromDB(type) {
-    const pictures = await fetchPictures(type);
+    const pictures = await database.fetchPictures(type);
     for (const picture of pictures) {
         if (picturesRankMap[picture.rank]) {
             picturesRankMap[picture.rank].push(picture);
@@ -52,7 +53,7 @@ function getPicturesRankMap() {
 async function updatePictureRank(index, rank, score) {
     const picture = picturesRankMap[rank].splice(index, 1)[0];
     const newRank = +rank + score;
-    await updatePicture(picture.id, newRank);
+    await database.updatePicture(picture.id, newRank);
 
     if (picturesRankMap[newRank]) {
         picturesRankMap[newRank].push(picture);
@@ -62,7 +63,7 @@ async function updatePictureRank(index, rank, score) {
 }
 
 async function exportHighestRankingPictures() {
-    const pictures = await fetchHighestRankPictures();
+    const pictures = await database.fetchHighestRankPictures();
     const pictureNames = pictures.map(({ name }) => name).join("\n");
 
     fs.writeFile("highest-pictures.txt", pictureNames, (err) => {

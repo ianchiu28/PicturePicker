@@ -1,16 +1,19 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require("electron");
 
-const database = require("../src/utils/database");
+const DatabaseSingleton = require("../src/utils/database");
 const { initializeIpc } = require("../src/utils/ipc");
 const { loadPicturesFromDB } = require("../src/utils/picture");
 const WindowSingleton = require("../src/utils/window");
+
+const database = DatabaseSingleton.getInstance();
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
-	await database.initDB();
+	await database.connect();
+	await database.initialize();
 	await loadPicturesFromDB();
 
 	WindowSingleton.getInstance().initialize();
@@ -24,7 +27,7 @@ app.whenReady().then(async () => {
 })
 
 app.on("before-quit", async () => {
-	await database.closeDB();
+	await database.close();
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
