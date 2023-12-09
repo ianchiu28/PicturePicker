@@ -1,13 +1,12 @@
-const fs = require("fs");
-
 const pictureModel = require("../models/picture.model");
+const { getFiles, writeFile } = require("../utils/fs");
 
 const DEFAULT_RANK = 0;
 const picturesRankMap = {};
 
 const savePicturesToDB = async (folderPath) => {
     const type = folderPath.split("\\").pop();
-    const files = fs.readdirSync(folderPath);
+    const files = getFiles(folderPath);
     const pictures = files.map((file) => [
         file.split(".").shift(),
         `${folderPath}\\${file}`,
@@ -30,7 +29,7 @@ const loadPicturesFromDB = async (type) => {
     }
 };
 
-const getPicturesByIndex = async (index = 0, rank = 0) => {
+const getPicturesByIndex = (index = 0, rank = 0) => {
     const pictures = [];
     for (let i = index - 2; i < index + 3; i++) {
         const picture = picturesRankMap?.[rank]?.[i] || {};
@@ -64,13 +63,7 @@ const exportHighestRankPictures = async () => {
     const pictures = await pictureModel.getHighestRankPicturesByType();
     const pictureNames = pictures.map(({ name }) => name).join("\n");
 
-    fs.writeFile("highest-pictures.txt", pictureNames, (err) => {
-        if (err) {
-            console.error("write file error:", err);
-            return;
-        }
-        console.log("write file successfully");
-    });
+    writeFile("highest-pictures.txt", pictureNames);
 };
 
 module.exports = {
