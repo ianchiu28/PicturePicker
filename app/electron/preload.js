@@ -10,8 +10,8 @@ const { contextBridge, ipcRenderer } = require("electron");
 window.addEventListener('DOMContentLoaded', () => {})
 
 contextBridge.exposeInMainWorld("electron", {
-    savePictures: () => ipcRenderer.invoke("save-pictures"),
-    reloadPictures: (index, rank) => ipcRenderer.invoke("reload-pictures", index, rank),
-    updateRanking: (index, rank, score) => ipcRenderer.invoke("update-ranking", index, rank, score),
-    exportHighestRankingPictures: () => ipcRenderer.invoke("export-highest-ranking-pictures")
+    savePictures: () => ipcRenderer.invoke("savePictures"),
+    reloadPictures: (index, rank) => ipcRenderer.invoke("reloadPictures", index, rank),
+    updateRank: (index, rank, score) => ipcRenderer.invoke("updateRank", index, rank, score),
+    exportHighestRankPictures: () => ipcRenderer.invoke("exportHighestRankPictures")
 });

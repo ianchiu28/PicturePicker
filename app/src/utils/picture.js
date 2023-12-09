@@ -63,7 +63,7 @@ async function updatePictureRank(index, rank, score) {
     }
 }
 
-async function exportHighestRankingPictures() {
+async function exportHighestRankPictures() {
     const pictures = await pictureModel.getHighestRankPicturesByType();
     const pictureNames = pictures.map(({ name }) => name).join("\n");
 
@@ -82,5 +82,5 @@ module.exports = {
     getPicturesByIndex,
     getPicturesRankMap,
     updatePictureRank,
-    exportHighestRankingPictures
+    exportHighestRankPictures
 };

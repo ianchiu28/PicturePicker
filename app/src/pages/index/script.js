@@ -85,17 +85,17 @@ async function savePictures() {
 }
 
 function exportRankingsInTxt() {
-    window.electron.exportHighestRankingPictures();
+    window.electron.exportHighestRankPictures();
 }
 
 async function keyDown({ key }) {
     switch(key) {
         case "ArrowUp":
-            await updateRanking(1);
+            await updateRank(1);
             await reloadPictures(currentPictureIndex, currentPictureRank);
             break;
         case "ArrowDown":
-            await updateRanking(-1);
+            await updateRank(-1);
             await reloadPictures(currentPictureIndex, currentPictureRank);
             break;
         case "ArrowLeft":
@@ -135,6 +135,6 @@ async function reloadPictures(index, rank) {
     picturesRankingMap.textContent = rankingMapString;
 }
 
-async function updateRanking(score) {
-    await window.electron.updateRanking(currentPictureIndex, currentPictureRank, score);
+async function updateRank(score) {
+    await window.electron.updateRank(currentPictureIndex, currentPictureRank, score);
 }

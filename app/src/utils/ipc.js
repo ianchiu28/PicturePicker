@@ -4,7 +4,7 @@ const pictureUtils = require("./picture");
 const WindowSingleton = require("./window");
 
 function initializeIpc () {
-	ipcMain.handle("save-pictures", async () => {
+	ipcMain.handle("savePictures", async () => {
 		const folderPath = await WindowSingleton.getInstance().openDirectory();
 		if (!folderPath) return;
 		
@@ -12,17 +12,17 @@ function initializeIpc () {
 		await pictureUtils.loadPicturesFromDB(type);
 	});
 
-	ipcMain.handle("reload-pictures", (_event, index, rank) => {
+	ipcMain.handle("reloadPictures", (_event, index, rank) => {
 		const picturesInfo = pictureUtils.getPicturesByIndex(index, rank);
 		const picturesRankMap = pictureUtils.getPicturesRankMap();
 		return { ...picturesInfo, picturesRankMap };
 	});
 
-	ipcMain.handle("update-ranking", async (_event, index, rank, score) => {
+	ipcMain.handle("updateRank", async (_event, index, rank, score) => {
 		await pictureUtils.updatePictureRank(index, rank, score);
 	});
 
-	ipcMain.handle("export-highest-ranking-pictures", pictureUtils.exportHighestRankingPictures);
+	ipcMain.handle("exportHighestRankPictures", pictureUtils.exportHighestRankPictures);
 }
 
 module.exports = { initializeIpc };

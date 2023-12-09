@@ -14,10 +14,11 @@ const database = DatabaseSingleton.getInstance();
 app.whenReady().then(async () => {
 	await database.connect();
 	await database.initialize();
-	await loadPicturesFromDB();
 
 	WindowSingleton.getInstance().initialize();
 	initializeIpc();
+
+	await loadPicturesFromDB();
 
 	app.on("activate", () => {
 		// On macOS it's common to re-create a window in the app when the
