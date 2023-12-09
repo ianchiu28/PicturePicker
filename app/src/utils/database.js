@@ -1,4 +1,4 @@
-const sqlite3 = require('sqlite3').verbose();
+const sqlite3 = require("sqlite3").verbose();
 
 const DATABASE = "picturePicker.db";
 
@@ -50,6 +50,17 @@ class Database {
         });
     }
 
+    async getAll(sql, values) {
+        return new Promise((resolve, reject) => {
+            this.#database.all(sql, values, (err, rows) => {
+                if (err) return reject(err);
+
+                console.log("[database] getAll completed")
+                resolve(rows);
+            });
+        });
+    }
+
     async insertPictures(pictures) {
         return new Promise((resolve, reject) => {
             this.#database.serialize(() => {
@@ -90,24 +101,6 @@ class Database {
                     }
                 }
             );
-        });
-    }
-    
-    async fetchPictures(type) {
-        const sql = type
-            ? "SELECT * FROM pictures WHERE type = ?;"
-            : "SELECT * FROM pictures;";
-        const values = type ? [type] : [];
-    
-        return new Promise((resolve, reject) => {
-            this.#database.all(sql, values, (err, rows) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    console.log("[database] fetch completed")
-                    resolve(rows);
-                }
-            });
         });
     }
     

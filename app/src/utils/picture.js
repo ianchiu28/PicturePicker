@@ -1,10 +1,11 @@
 const fs = require("fs");
 
-const DatabaseSingleton = require("./database.js");
+const pictureModel = require("../models/picture.model");
+const DatabaseSingleton = require("./database");
+
 const database = DatabaseSingleton.getInstance();
 
 const DEFAULT_RANK = 0;
-
 const picturesRankMap = {};
 
 async function savePicturesToDB(folderPath) {
@@ -22,7 +23,7 @@ async function savePicturesToDB(folderPath) {
 }
 
 async function loadPicturesFromDB(type) {
-    const pictures = await database.fetchPictures(type);
+    const pictures = await pictureModel.getPicturesByType(type);
     for (const picture of pictures) {
         if (picturesRankMap[picture.rank]) {
             picturesRankMap[picture.rank].push(picture);
