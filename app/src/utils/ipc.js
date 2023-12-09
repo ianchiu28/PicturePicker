@@ -23,11 +23,11 @@ const updateRank = async (_event, index, rank, score) => {
 
 const exportHighestRankPictures = pictureUtils.exportHighestRankPictures;
 
-function initializeIpc () {
+const initializeIpc = () => {
 	ipcMain.handle("savePictures", savePictures);
 	ipcMain.handle("reloadPictures", reloadPictures);
 	ipcMain.handle("updateRank", updateRank);
 	ipcMain.handle("exportHighestRankPictures", exportHighestRankPictures);
-}
+};
 
 module.exports = { initializeIpc };
