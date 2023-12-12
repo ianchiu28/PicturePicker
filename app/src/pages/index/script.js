@@ -32,7 +32,7 @@ document
     .getElementById("main-picture-container")
     .addEventListener("wheel", (event) => wheelHandler(mainPicture, event));
 document
-    .getElementById("reset-button")
+    .getElementById("reset-picture")
     .addEventListener("click", (event) => resetPicture(mainPicture, event));
 
 // content loaded
