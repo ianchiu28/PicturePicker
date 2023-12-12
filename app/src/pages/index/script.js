@@ -5,20 +5,14 @@
  * `contextIsolation` is turned on. Use the contextBridge API in `preload.js`
  * to expose Node.js functionality from the main process.
  */
-const SCALE_FACTOR = 0.1;
-const SCALE_MIN = 0.5;
 const defaultPicture = "../../../../resources/images/empty.jpg";
-let startScale = 1;
-let startCoords = { x: 0, y: 0 };
 let currentPictureIndex = 0;
 let currentPictureRank = 0;
 let currentPictureMin = 0;
 let currentPictureMax = 0;
 
-const mainPictureContainer = document.getElementById("main-picture-container");
 const mainPicture = document.getElementById("main-picture");
 const currentRanking = document.getElementById("current-ranking");
-const resetButton = document.getElementById("reset-button");
 const loadPictureFolder = document.getElementById("load-picture-folder");
 const exportHighestRankingPictures = document.getElementById("export-highest-ranking-pictures");
 const previewPicture1 = document.getElementById("preview-picture-1");
@@ -28,51 +22,23 @@ const previewPicture4 = document.getElementById("preview-picture-4");
 const previewPicture5 = document.getElementById("preview-picture-5");
 const picturesRankingMap = document.getElementById("pictures-ranking-map");
 
-mainPictureContainer.addEventListener("wheel", wheelHandler);
-resetButton.addEventListener("click", resetPicture);
 currentRanking.addEventListener("change", changeRanking);
 loadPictureFolder.addEventListener("click", savePictures);
 exportHighestRankingPictures.addEventListener("click", exportRankingsInTxt);
 document.addEventListener("keydown", keyDown);
 
+// wheel operation
+document
+    .getElementById("main-picture-container")
+    .addEventListener("wheel", (event) => wheelHandler(mainPicture, event));
+document
+    .getElementById("reset-button")
+    .addEventListener("click", (event) => resetPicture(mainPicture, event));
+
+// content loaded
 document.addEventListener('DOMContentLoaded', (event) => {
     reloadPictures();
 });
-
-function wheelHandler(event) {
-    event.preventDefault();
-
-    const { deltaX, deltaY } = event;
-    const isZoom = deltaX === 0 && !Number.isInteger(deltaY)
-    const actionFunction = isZoom ? zoom : move;
-    actionFunction(event);
-}
-
-function zoom({ deltaY }) {
-    if (deltaY > 0) {
-        // pinch
-        startScale -= SCALE_FACTOR;
-    } else {
-        // unpinch
-        startScale += SCALE_FACTOR;
-    }
-
-    // startScale should have min size
-    startScale = Math.max(SCALE_MIN, startScale);
-
-    mainPicture.style.transform = `translate(${startCoords.x}px, ${startCoords.y}px) scale(${startScale})`;
-}
-
-function move({ deltaX, deltaY }) {
-    startCoords.x -= deltaX;
-    startCoords.y -= deltaY;
-
-    mainPicture.style.transform = `translate(${startCoords.x}px, ${startCoords.y}px) scale(${startScale})`;
-}
-
-function resetPicture() {
-    mainPicture.style.transform = `translate(0px, 0px) scale(1)`;
-}
 
 async function changeRanking(event) {
     const rank = event.target.value;
