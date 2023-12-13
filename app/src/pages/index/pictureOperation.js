@@ -4,16 +4,16 @@ const SCALE_MIN = 0.5;
 let startScale = 1;
 let startCoords = { x: 0, y: 0 };
 
-function wheelHandler(picture, event) {
+function wheelHandler(event) {
     event.preventDefault();
 
     const { deltaX, deltaY } = event;
     const isZoom = deltaX === 0 && !Number.isInteger(deltaY)
     const actionFunction = isZoom ? zoom : move;
-    actionFunction(picture, event);
+    actionFunction(event);
 }
 
-function zoom(picture, { deltaY }) {
+function zoom({ deltaY }) {
     if (deltaY > 0) {
         // pinch
         startScale -= SCALE_FACTOR;
@@ -25,16 +25,19 @@ function zoom(picture, { deltaY }) {
     // startScale should have min size
     startScale = Math.max(SCALE_MIN, startScale);
 
-    picture.style.transform = `translate(${startCoords.x}px, ${startCoords.y}px) scale(${startScale})`;
+    const mainPicture = document.getElementById("main-picture");
+    mainPicture.style.transform = `translate(${startCoords.x}px, ${startCoords.y}px) scale(${startScale})`;
 }
 
-function move(picture, { deltaX, deltaY }) {
+function move({ deltaX, deltaY }) {
     startCoords.x -= deltaX;
     startCoords.y -= deltaY;
 
-    picture.style.transform = `translate(${startCoords.x}px, ${startCoords.y}px) scale(${startScale})`;
+    const mainPicture = document.getElementById("main-picture");
+    mainPicture.style.transform = `translate(${startCoords.x}px, ${startCoords.y}px) scale(${startScale})`;
 }
 
-function resetPicture(picture) {
-    picture.style.transform = `translate(0px, 0px) scale(1)`;
+function resetPicture() {
+    const mainPicture = document.getElementById("main-picture");
+    mainPicture.style.transform = `translate(0px, 0px) scale(1)`;
 }

@@ -30,10 +30,10 @@ document.addEventListener("keydown", keyDown);
 // picture operation
 document
     .getElementById("main-picture-container")
-    .addEventListener("wheel", (event) => wheelHandler(mainPicture, event));
+    .addEventListener("wheel", wheelHandler);
 document
     .getElementById("reset-picture")
-    .addEventListener("click", (event) => resetPicture(mainPicture, event));
+    .addEventListener("click", resetPicture);
 
 // content loaded
 document.addEventListener('DOMContentLoaded', (event) => {
