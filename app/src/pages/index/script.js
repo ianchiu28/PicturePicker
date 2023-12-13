@@ -27,7 +27,7 @@ loadPictureFolder.addEventListener("click", savePictures);
 exportHighestRankingPictures.addEventListener("click", exportRankingsInTxt);
 document.addEventListener("keydown", keyDown);
 
-// wheel operation
+// picture operation
 document
     .getElementById("main-picture-container")
     .addEventListener("wheel", (event) => wheelHandler(mainPicture, event));
