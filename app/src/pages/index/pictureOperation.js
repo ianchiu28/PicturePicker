@@ -25,19 +25,16 @@ function zoom({ deltaY }) {
     // startScale should have min size
     startScale = Math.max(SCALE_MIN, startScale);
 
-    const mainPicture = document.getElementById("main-picture");
-    mainPicture.style.transform = `translate(${startCoords.x}px, ${startCoords.y}px) scale(${startScale})`;
+    $("#main-picture").css("transform", `translate(${startCoords.x}px, ${startCoords.y}px) scale(${startScale})`);
 }
 
 function move({ deltaX, deltaY }) {
     startCoords.x -= deltaX;
     startCoords.y -= deltaY;
 
-    const mainPicture = document.getElementById("main-picture");
-    mainPicture.style.transform = `translate(${startCoords.x}px, ${startCoords.y}px) scale(${startScale})`;
+    $("#main-picture").css("transform", `translate(${startCoords.x}px, ${startCoords.y}px) scale(${startScale})`);
 }
 
 export function resetPicture() {
-    const mainPicture = document.getElementById("main-picture");
-    mainPicture.style.transform = `translate(0px, 0px) scale(1)`;
+    $("#main-picture").css("transform", "translate(0px, 0px) scale(1)");
 }
