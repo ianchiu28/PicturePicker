@@ -6,23 +6,17 @@
  * to expose Node.js functionality from the main process.
  */
 import { wheelHandler, resetPicture } from "./pictureOperation.js";
+import {
+    currentPictureIndex,
+    currentPictureRank,
+    currentPictureMin,
+    currentPictureMax,
+    reloadPictures
+} from "./pictureUtil.js"
 
-const defaultPicture = "../../../../resources/images/empty.jpg";
-let currentPictureIndex = 0;
-let currentPictureRank = 0;
-let currentPictureMin = 0;
-let currentPictureMax = 0;
-
-const mainPicture = document.getElementById("main-picture");
 const currentRanking = document.getElementById("current-ranking");
 const loadPictureFolder = document.getElementById("load-picture-folder");
 const exportHighestRankingPictures = document.getElementById("export-highest-ranking-pictures");
-const previewPicture1 = document.getElementById("preview-picture-1");
-const previewPicture2 = document.getElementById("preview-picture-2");
-const previewPicture3 = document.getElementById("preview-picture-3");
-const previewPicture4 = document.getElementById("preview-picture-4");
-const previewPicture5 = document.getElementById("preview-picture-5");
-const picturesRankingMap = document.getElementById("pictures-ranking-map");
 
 currentRanking.addEventListener("change", changeRanking);
 loadPictureFolder.addEventListener("click", savePictures);
@@ -77,30 +71,6 @@ async function keyDown({ key }) {
         default:
             break;
     }
-}
-
-async function reloadPictures(index, rank) {
-    const { pictures, currentIndex, currentRank, picturesRankCount } = await window.electron.reloadPictures(index, rank);
-
-    currentPictureIndex = currentIndex;
-    currentPictureRank = currentRank;
-    currentPictureMax = picturesRankCount[currentRank];
-
-    currentRanking.value = currentPictureRank;
-
-    previewPicture1.setAttribute("src", pictures[0].path || defaultPicture);
-    previewPicture2.setAttribute("src", pictures[1].path || defaultPicture);
-    previewPicture3.setAttribute("src", pictures[2].path || defaultPicture);
-    previewPicture4.setAttribute("src", pictures[3].path || defaultPicture);
-    previewPicture5.setAttribute("src", pictures[4].path || defaultPicture);
-    mainPicture.setAttribute("src", pictures[2].path || defaultPicture);
-
-    const picturesRankArray = Object.entries(picturesRankCount).sort(([a], [b]) => +b - +a);
-    let rankingMapString = "";
-    for (const [key, value] of picturesRankArray) {
-        rankingMapString += `Rank ${key}: ${value} picture(s).\n`;
-    }
-    picturesRankingMap.textContent = rankingMapString;
 }
 
 async function updateRank(score) {
