@@ -4,7 +4,7 @@ const SCALE_MIN = 0.5;
 let startScale = 1;
 let startCoords = { x: 0, y: 0 };
 
-function wheelHandler(event) {
+export function wheelHandler(event) {
     event.preventDefault();
 
     const { deltaX, deltaY } = event;
@@ -37,7 +37,7 @@ function move({ deltaX, deltaY }) {
     mainPicture.style.transform = `translate(${startCoords.x}px, ${startCoords.y}px) scale(${startScale})`;
 }
 
-function resetPicture() {
+export function resetPicture() {
     const mainPicture = document.getElementById("main-picture");
     mainPicture.style.transform = `translate(0px, 0px) scale(1)`;
 }

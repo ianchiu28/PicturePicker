@@ -5,6 +5,8 @@
  * `contextIsolation` is turned on. Use the contextBridge API in `preload.js`
  * to expose Node.js functionality from the main process.
  */
+import { wheelHandler, resetPicture } from "./pictureOperation.js";
+
 const defaultPicture = "../../../../resources/images/empty.jpg";
 let currentPictureIndex = 0;
 let currentPictureRank = 0;
