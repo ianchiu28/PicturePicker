@@ -12,7 +12,7 @@ export async function reloadPictures(index, rank) {
     currentPictureRank = currentRank;
     currentPictureMax = picturesRankCount[currentRank];
 
-    $("#current-ranking").val(currentPictureRank);
+    $("#current-rank").val(currentPictureRank);
 
     $("#preview-picture-1").attr("src", pictures[0].path || defaultPicture);
     $("#preview-picture-2").attr("src", pictures[1].path || defaultPicture);
@@ -26,5 +26,5 @@ export async function reloadPictures(index, rank) {
     for (const [key, value] of picturesRankArray) {
         rankingMapString += `Rank ${key}: ${value} picture(s).\n`;
     }
-    $("#pictures-ranking-map").text(rankingMapString);
+    $("#pictures-rank-status").text(rankingMapString);
 }

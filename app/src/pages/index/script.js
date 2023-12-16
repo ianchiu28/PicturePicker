@@ -14,11 +14,11 @@ import {
     reloadPictures
 } from "./pictureUtil.js"
 
-const currentRanking = document.getElementById("current-ranking");
+const currentRank = document.getElementById("current-rank");
 const loadPictureFolder = document.getElementById("load-picture-folder");
 const exportHighestRankingPictures = document.getElementById("export-highest-ranking-pictures");
 
-currentRanking.addEventListener("change", changeRanking);
+currentRank.addEventListener("change", changeRanking);
 loadPictureFolder.addEventListener("click", savePictures);
 exportHighestRankingPictures.addEventListener("click", exportRankingsInTxt);
 document.addEventListener("keydown", keyDown);
