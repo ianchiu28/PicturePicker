@@ -38,7 +38,7 @@ const move = ({ deltaX, deltaY }) => {
     });
 };
 
-export const wheelHandler = (event) => {
+export const wheelHandler = ({ originalEvent: event }) => {
     event.preventDefault();
 
     const { deltaX, deltaY } = event;
