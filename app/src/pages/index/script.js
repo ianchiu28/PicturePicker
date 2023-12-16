@@ -14,26 +14,6 @@ import {
     reloadPictures
 } from "./pictureUtil.js"
 
-// UI operation
-$("#load-picture-folder").on("click", savePictures);
-$("#current-rank").on("change", changeRank);
-$("#export-highest-rank-pictures").on("click", exportHighestRankPictures);
-
-// Picture operation
-$("#main-picture-container").on("wheel", wheelHandler);
-$("#reset-picture").on("click", resetPicture);
-
-// Keyboard operation
-$(document).on("keydown", keyDown);
-
-// Content loaded
-$(document).ready(() => {
-    reloadPictures();
-});
-
-/**
- * Functions
- */
 const savePictures = async () => {
     await window.electron.savePictures();
     await reloadPictures();
@@ -73,3 +53,20 @@ const keyDown = async ({ key }) => {
             break;
     }
 };
+
+// UI operation
+$("#load-picture-folder").on("click", savePictures);
+$("#current-rank").on("change", changeRank);
+$("#export-highest-rank-pictures").on("click", exportHighestRankPictures);
+
+// Picture operation
+$("#main-picture-container").on("wheel", wheelHandler);
+$("#reset-picture").on("click", resetPicture);
+
+// Keyboard operation
+$(document).on("keydown", keyDown);
+
+// Content loaded
+$(document).ready(() => {
+    reloadPictures();
+});
