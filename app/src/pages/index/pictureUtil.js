@@ -72,3 +72,7 @@ export const updatePictureRank = async (score) => {
         picturesCache[newRank] = [picture];
     }
 };
+
+export const exportHighestRankPictures = () => {
+    window.electron.exportHighestRankPictures();
+};

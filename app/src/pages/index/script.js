@@ -14,15 +14,12 @@ import {
     savePictures,
     loadPictures,
     reloadPictures,
-    updatePictureRank
+    updatePictureRank,
+    exportHighestRankPictures
 } from "./pictureUtil.js"
 
 const changeRank = async (event) => {
     await reloadPictures(0, event.target.value);
-};
-
-const exportHighestRankPictures = () => {
-    window.electron.exportHighestRankPictures();
 };
 
 const keyDown = async ({ key }) => {
