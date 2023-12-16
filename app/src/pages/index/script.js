@@ -14,43 +14,44 @@ import {
     reloadPictures
 } from "./pictureUtil.js"
 
-const currentRank = document.getElementById("current-rank");
-const loadPictureFolder = document.getElementById("load-picture-folder");
-const exportHighestRankingPictures = document.getElementById("export-highest-ranking-pictures");
+// UI operation
+$("#load-picture-folder").on("click", savePictures);
+$("#current-rank").on("change", changeRank);
+$("#export-highest-rank-pictures").on("click", exportHighestRankPictures);
 
-currentRank.addEventListener("change", changeRanking);
-loadPictureFolder.addEventListener("click", savePictures);
-exportHighestRankingPictures.addEventListener("click", exportRankingsInTxt);
-document.addEventListener("keydown", keyDown);
+// Picture operation
+$("#main-picture-container").on("wheel", wheelHandler);
+$("#reset-picture").on("click", resetPicture);
 
-// picture operation
-document
-    .getElementById("main-picture-container")
-    .addEventListener("wheel", wheelHandler);
-document
-    .getElementById("reset-picture")
-    .addEventListener("click", resetPicture);
+// Keyboard operation
+$(document).on("keydown", keyDown);
 
-// content loaded
-document.addEventListener('DOMContentLoaded', (event) => {
+// Content loaded
+$(document).ready(() => {
     reloadPictures();
 });
 
-async function changeRanking(event) {
-    const rank = event.target.value;
-    await reloadPictures(0, rank);
-}
-
-async function savePictures() {
+/**
+ * Functions
+ */
+const savePictures = async () => {
     await window.electron.savePictures();
     await reloadPictures();
-}
+};
 
-function exportRankingsInTxt() {
+const changeRank = async (event) => {
+    await reloadPictures(0, event.target.value);
+};
+
+const exportHighestRankPictures = () => {
     window.electron.exportHighestRankPictures();
-}
+};
 
-async function keyDown({ key }) {
+const updateRank = async (score) => {
+    await window.electron.updateRank(currentPictureIndex, currentPictureRank, score);
+};
+
+const keyDown = async ({ key }) => {
     switch(key) {
         case "ArrowUp":
             await updateRank(1);
@@ -71,8 +72,4 @@ async function keyDown({ key }) {
         default:
             break;
     }
-}
-
-async function updateRank(score) {
-    await window.electron.updateRank(currentPictureIndex, currentPictureRank, score);
-}
+};
