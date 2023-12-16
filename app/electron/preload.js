@@ -13,7 +13,7 @@ const setIpcInvoke = (funcName) => (...args) => ipcRenderer.invoke(funcName, ...
 
 contextBridge.exposeInMainWorld("electron", {
     savePictures: setIpcInvoke("savePictures"),
-    reloadPictures: setIpcInvoke("reloadPictures"),
-    updateRank: setIpcInvoke("updateRank"),
+    loadPictures: setIpcInvoke("loadPictures"),
+    updatePictureRank: setIpcInvoke("updatePictureRank"),
     exportHighestRankPictures: setIpcInvoke("exportHighestRankPictures")
 });

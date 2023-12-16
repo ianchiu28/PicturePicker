@@ -4,8 +4,8 @@ const pictureService = require("../src/services/picture.service");
 
 const IPC_FUNCTIONS_MAP = {
 	"savePictures": pictureService.savePicturesToDB,
-	"reloadPictures": pictureService.reloadPictures,
-	"updateRank": pictureService.updatePictureRank,
+	"loadPictures": pictureService.loadPicturesFromDB,
+	"updatePictureRank": pictureService.updatePictureRank,
 	"exportHighestRankPictures": pictureService.exportHighestRankPictures
 };
 

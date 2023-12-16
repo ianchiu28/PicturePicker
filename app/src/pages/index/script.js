@@ -11,13 +11,11 @@ import {
     currentPictureRank,
     currentPictureMin,
     currentPictureMax,
-    reloadPictures
+    savePictures,
+    loadPictures,
+    reloadPictures,
+    updatePictureRank
 } from "./pictureUtil.js"
-
-const savePictures = async () => {
-    await window.electron.savePictures();
-    await reloadPictures();
-};
 
 const changeRank = async (event) => {
     await reloadPictures(0, event.target.value);
@@ -27,18 +25,14 @@ const exportHighestRankPictures = () => {
     window.electron.exportHighestRankPictures();
 };
 
-const updateRank = async (score) => {
-    await window.electron.updateRank(currentPictureIndex, currentPictureRank, score);
-};
-
 const keyDown = async ({ key }) => {
     switch(key) {
         case "ArrowUp":
-            await updateRank(1);
+            await updatePictureRank(1);
             await reloadPictures(currentPictureIndex, currentPictureRank);
             break;
         case "ArrowDown":
-            await updateRank(-1);
+            await updatePictureRank(-1);
             await reloadPictures(currentPictureIndex, currentPictureRank);
             break;
         case "ArrowLeft":
@@ -67,6 +61,7 @@ $("#reset-picture").on("click", resetPicture);
 $(document).on("keydown", keyDown);
 
 // Content loaded
-$(document).ready(() => {
-    reloadPictures();
+$(document).ready(async () => {
+    await loadPictures();
+    await reloadPictures();
 });
