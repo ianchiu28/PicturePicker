@@ -4,16 +4,11 @@ const SCALE_MIN = 0.5;
 let startScale = 1;
 let startCoords = { x: 0, y: 0 };
 
-export function wheelHandler(event) {
-    event.preventDefault();
+const updateMainPicture = ({ pixelX, pixelY, scale }) => {
+    $("#main-picture").css("transform", `translate(${pixelX}px, ${pixelY}px) scale(${scale})`);
+};
 
-    const { deltaX, deltaY } = event;
-    const isZoom = deltaX === 0 && !Number.isInteger(deltaY)
-    const actionFunction = isZoom ? zoom : move;
-    actionFunction(event);
-}
-
-function zoom({ deltaY }) {
+const zoom = ({ deltaY }) => {
     if (deltaY > 0) {
         // pinch
         startScale -= SCALE_FACTOR;
@@ -25,16 +20,37 @@ function zoom({ deltaY }) {
     // startScale should have min size
     startScale = Math.max(SCALE_MIN, startScale);
 
-    $("#main-picture").css("transform", `translate(${startCoords.x}px, ${startCoords.y}px) scale(${startScale})`);
-}
+    updateMainPicture({
+        pixelX: startCoords.x,
+        pixelY: startCoords.y,
+        scale: startScale
+    });
+};
 
-function move({ deltaX, deltaY }) {
+const move = ({ deltaX, deltaY }) => {
     startCoords.x -= deltaX;
     startCoords.y -= deltaY;
 
-    $("#main-picture").css("transform", `translate(${startCoords.x}px, ${startCoords.y}px) scale(${startScale})`);
-}
+    updateMainPicture({
+        pixelX: startCoords.x,
+        pixelY: startCoords.y,
+        scale: startScale
+    });
+};
 
-export function resetPicture() {
-    $("#main-picture").css("transform", "translate(0px, 0px) scale(1)");
-}
+export const wheelHandler = (event) => {
+    event.preventDefault();
+
+    const { deltaX, deltaY } = event;
+    const isZoom = deltaX === 0 && !Number.isInteger(deltaY)
+    const actionFunction = isZoom ? zoom : move;
+    actionFunction(event);
+};
+
+export const resetPicture = () => {
+    updateMainPicture({
+        pixelX: 0,
+        pixelY: 0,
+        scale: 1
+    });
+};
