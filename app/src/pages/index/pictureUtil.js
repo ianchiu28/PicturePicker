@@ -12,19 +12,19 @@ export async function reloadPictures(index, rank) {
     currentPictureRank = currentRank;
     currentPictureMax = picturesRankCount[currentRank];
 
-    document.getElementById("current-ranking").value = currentPictureRank;
+    $("#current-ranking").val(currentPictureRank);
 
-    document.getElementById("preview-picture-1").setAttribute("src", pictures[0].path || defaultPicture);
-    document.getElementById("preview-picture-2").setAttribute("src", pictures[1].path || defaultPicture);
-    document.getElementById("preview-picture-3").setAttribute("src", pictures[2].path || defaultPicture);
-    document.getElementById("preview-picture-4").setAttribute("src", pictures[3].path || defaultPicture);
-    document.getElementById("preview-picture-5").setAttribute("src", pictures[4].path || defaultPicture);
-    document.getElementById("main-picture").setAttribute("src", pictures[2].path || defaultPicture);
+    $("#preview-picture-1").attr("src", pictures[0].path || defaultPicture);
+    $("#preview-picture-2").attr("src", pictures[1].path || defaultPicture);
+    $("#preview-picture-3").attr("src", pictures[2].path || defaultPicture);
+    $("#preview-picture-4").attr("src", pictures[3].path || defaultPicture);
+    $("#preview-picture-5").attr("src", pictures[4].path || defaultPicture);
+    $("#main-picture").attr("src", pictures[2].path || defaultPicture);
 
     const picturesRankArray = Object.entries(picturesRankCount).sort(([a], [b]) => +b - +a);
     let rankingMapString = "";
     for (const [key, value] of picturesRankArray) {
         rankingMapString += `Rank ${key}: ${value} picture(s).\n`;
     }
-    document.getElementById("pictures-ranking-map").textContent = rankingMapString;
+    $("#pictures-ranking-map").text(rankingMapString);
 }
