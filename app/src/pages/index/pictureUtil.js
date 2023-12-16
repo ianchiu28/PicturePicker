@@ -10,7 +10,6 @@ export let currentPictureMax = 0;
 export const savePictures = async () => {
     await window.electron.savePictures();
     await loadPictures();
-    await reloadPictures();
 };
 
 export const loadPictures = async () => {
@@ -22,6 +21,7 @@ export const loadPictures = async () => {
             picturesCache[picture.rank] = [picture];
         }
     }
+    await reloadPictures();
 };
 
 export async function reloadPictures(index = 0, rank = 0) {

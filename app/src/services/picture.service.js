@@ -18,7 +18,6 @@ const savePicturesToDB = async () => {
     ]);
 
     await pictureModel.insertPictures(pictures);
-    await loadPicturesFromDB(type);
 };
 
 const loadPicturesFromDB = async (type) => {

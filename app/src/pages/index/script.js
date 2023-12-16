@@ -63,5 +63,4 @@ $(document).on("keydown", keyDown);
 // Content loaded
 $(document).ready(async () => {
     await loadPictures();
-    await reloadPictures();
 });
