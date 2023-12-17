@@ -49,6 +49,7 @@ export async function reloadPictures(index = 0, rank = 0) {
     $("#preview-picture-4").attr("src", pictures[3].path || DEFAULT_PICTURE);
     $("#preview-picture-5").attr("src", pictures[4].path || DEFAULT_PICTURE);
     $("#main-picture").attr("src", pictures[2].path || DEFAULT_PICTURE);
+    $("#current-picture-name").text(pictures[2].name);
 
     const picturesRankArray = Object.entries(picturesRankCount).sort(([a], [b]) => +b - +a);
     let rankingMapString = "";
