@@ -1,6 +1,6 @@
 const DEFAULT_PICTURE = "../../../../resources/images/empty.jpg";
 
-const picturesCache = {};
+let picturesCache = {};
 
 export let currentPictureIndex = 0;
 export let currentPictureRank = 0;
@@ -13,6 +13,7 @@ export const savePictures = async () => {
 };
 
 export const loadPictures = async () => {
+    picturesCache = {};
     const pictures = await window.electron.loadPictures();
     for (const picture of pictures) {
         if (picturesCache[picture.rank]) {
