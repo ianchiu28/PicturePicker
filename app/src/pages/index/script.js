@@ -18,6 +18,11 @@ import {
     exportHighestRankPictures
 } from "./pictureUtil.js"
 
+const changeType = async (event) => {
+    const type = event.target.value === "all" ? undefined : event.target.value;
+    await loadPictures(type);
+};
+
 const changeRank = async (event) => {
     await reloadPictures(0, event.target.value);
 };
@@ -47,6 +52,7 @@ const keyDown = async ({ key }) => {
 
 // UI operation
 $("#load-picture-folder").on("click", savePictures);
+$("#current-type").on("change", changeType);
 $("#current-rank").on("change", changeRank);
 $("#export-highest-rank-pictures").on("click", exportHighestRankPictures);
 

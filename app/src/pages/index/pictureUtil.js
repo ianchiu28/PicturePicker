@@ -12,8 +12,8 @@ export const savePictures = async () => {
     await loadPictures();
 };
 
-export const loadPictures = async () => {
-    const pictures = await window.electron.loadPictures();
+export const loadPictures = async (type) => {
+    const pictures = await window.electron.loadPictures(type);
     
     picturesCache = {};
     for (const picture of pictures) {
@@ -23,6 +23,7 @@ export const loadPictures = async () => {
             picturesCache[picture.rank] = [picture];
         }
     }
+
     await reloadPictures();
 };
 
