@@ -10,10 +10,9 @@ const insertPictures = async (pictures) => {
 };
 
 const getPicturesByType = async (type) => {
-    // const sql = type
-    //     ? "SELECT * FROM pictures WHERE type = ?;"
-    //     : "SELECT * FROM pictures;";
-    const sql = "SELECT * FROM pictures WHERE type = 'princess';";
+    const sql = type
+        ? "SELECT * FROM pictures WHERE type = ?;"
+        : "SELECT * FROM pictures;";
     const values = type ? [type] : [];
 
     return database.getAll(sql, values);
